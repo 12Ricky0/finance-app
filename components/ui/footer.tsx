@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 absolute bottom-0 w-full pt-2 px-4 md:px-10">
       <nav className="flex justify-between items-center">
-        <div className="bg-white pt-2  rounded-t-lg">
+        <div className="bg-white pt-2  rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]">
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-overview.svg"
@@ -21,10 +21,12 @@ export default function Footer() {
               Overview
             </span>
 
-            <div className="h-1 bg-[#277C78] w-full" />
+            {/* <div className="h-1 bg-[#277C78] w-full" /> */}
           </Link>
         </div>
-        <div className={` pt-2 rounded-t-lg `}>
+        <div
+          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-transactions.svg"
@@ -38,10 +40,12 @@ export default function Footer() {
             >
               Transactions
             </span>
-            <div className={`h-1 bg-[#277C78] w-full hidden`} />
+            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div className={` pt-2 rounded-t-lg`}>
+        <div
+          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-budgets.svg"
@@ -56,10 +60,12 @@ export default function Footer() {
               Budget
             </span>
 
-            <div className={`h-1 bg-[#277C78] w-full hidden`} />
+            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div className={` pt-2 rounded-t-lg`}>
+        <div
+          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-pots.svg"
@@ -74,10 +80,12 @@ export default function Footer() {
               Pots
             </span>
 
-            <div className={`h-1 bg-[#277C78] w-full hidden`} />
+            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div className={`pt-2 rounded-t-lg`}>
+        <div
+          className={`pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"
@@ -92,7 +100,7 @@ export default function Footer() {
               Recurring bills
             </span>
 
-            <div className={`h-1 bg-[#277C78] w-full hidden`} />
+            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
       </nav>

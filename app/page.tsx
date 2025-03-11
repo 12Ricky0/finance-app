@@ -9,14 +9,16 @@ import Pot_Deposit from "@/components/forms/pot_deposit_form";
 import Pot_Withdrawal from "@/components/forms/pot_withdraw_form";
 import Pot_Loading from "@/components/skeletons/pot_skeleton";
 import Footer from "@/components/ui/footer";
+import Header from "@/components/ui/header";
 
 export default function Home() {
   return (
-    <main className="flex justify-center items-center h-screen">
+    <main>
       {/* <SignUp_form /> */}
       {/* <Delete /> */}
-      <Footer />
+      <Header />
       {/* Add other components here */}
     </main>
   );
 }
+// className = "flex justify-center items-center h-screen";
