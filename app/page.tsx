@@ -12,13 +12,14 @@ import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
 import { Budget_Plan, Budget_Graph } from "@/components/ui/budget_containers";
 import Chart from "@/components/ui/charts";
+import Transactions from "@/components/ui/transactions";
 
 export default function Home() {
   return (
     <main>
       {/* <SignUp_form /> */}
       {/* <Delete /> */}
-      <Budget_Graph />
+      <Transactions />
       {/* Add other components here */}
     </main>
   );
