@@ -13,13 +13,15 @@ import Header from "@/components/ui/header";
 import { Budget_Plan, Budget_Graph } from "@/components/ui/budget_containers";
 import Chart from "@/components/ui/charts";
 import Transactions from "@/components/ui/transactions";
+import Total_Bill_Card from "@/components/cards/total_bill";
+import Recurring_Bill_Card from "@/components/cards/recurring_bill";
 
 export default function Home() {
   return (
     <main>
       {/* <SignUp_form /> */}
       {/* <Delete /> */}
-      <Transactions />
+      <Recurring_Bill_Card />
       {/* Add other components here */}
     </main>
   );
