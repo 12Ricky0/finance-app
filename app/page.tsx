@@ -15,13 +15,16 @@ import Chart from "@/components/ui/charts";
 import Transactions from "@/components/ui/transactions";
 import Total_Bill_Card from "@/components/cards/total_bill";
 import Recurring_Bill_Card from "@/components/cards/recurring_bill";
+import Balance_Card from "@/components/cards/overview_header";
+import Pots_Card from "@/components/cards/overview_pots";
 
 export default function Home() {
   return (
     <main>
       {/* <SignUp_form /> */}
       {/* <Delete /> */}
-      <Recurring_Bill_Card />
+      <Balance_Card />
+      <Pots_Card />
       {/* Add other components here */}
     </main>
   );
