@@ -29,10 +29,10 @@ export default function Chart() {
       {
         data: [15, 150, 133, 40],
         backgroundColor: [
-          "rgba(98, 96, 112, 0.3)",
-          "rgba(242, 205, 172, 0.3)",
-          "rgba(130, 201, 215, 0.3)",
-          "rgba(39, 124, 120, 0.3)",
+          "rgba(98, 96, 112, 0.7)",
+          "rgba(242, 205, 172, 0.7)",
+          "rgba(130, 201, 215, 0.7)",
+          "rgba(39, 124, 120, 0.7)",
         ],
         hoverOffset: 4,
         borderWidth: 0,

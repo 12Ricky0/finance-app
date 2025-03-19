@@ -7,7 +7,7 @@ export default function Header() {
   const [isMinimized, setIsMinimized] = useState(false);
   return (
     <header
-      className={`bg-gray-900  h-screen rounded-r-lg transition-all duration-500 ${
+      className={`bg-gray-900 hidden lg:block fixed z-50 h-screen rounded-r-lg transition-all duration-500 ${
         isMinimized ? "w-[88px]" : "w-[300px]"
       }`}
     >

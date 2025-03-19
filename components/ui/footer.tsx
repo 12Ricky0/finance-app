@@ -4,9 +4,11 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 absolute bottom-0 w-full pt-2 px-4 md:px-10">
+    <footer className="bg-gray-900 z-50 lg:hidden fixed bottom-0 w-full pt-2 px-4 md:px-10">
       <nav className="flex justify-between items-center">
-        <div className="bg-white pt-2  rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]">
+        <div
+          className={`bg-white pt-2 mb-1 rounded-t-lg shadow-[0_4px_0_0_rgb(39,124,120,1)]`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-overview.svg"
@@ -24,9 +26,7 @@ export default function Footer() {
             {/* <div className="h-1 bg-[#277C78] w-full" /> */}
           </Link>
         </div>
-        <div
-          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
-        >
+        <div className={` pt-2 rounded-t-lg `}>
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-transactions.svg"
@@ -43,9 +43,7 @@ export default function Footer() {
             {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div
-          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
-        >
+        <div className={` pt-2 rounded-t-lg `}>
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-budgets.svg"
@@ -63,9 +61,7 @@ export default function Footer() {
             {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div
-          className={` pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
-        >
+        <div className={` pt-2 rounded-t-lg `}>
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-pots.svg"
@@ -83,9 +79,7 @@ export default function Footer() {
             {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div
-          className={`pt-2 rounded-t-lg shadow-[-4px_0_0_0_rgb(39,124,120,1)]`}
-        >
+        <div className={`pt-2 rounded-t-lg `}>
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"

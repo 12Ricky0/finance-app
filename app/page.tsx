@@ -17,6 +17,9 @@ import Total_Bill_Card from "@/components/cards/total_bill";
 import Recurring_Bill_Card from "@/components/cards/recurring_bill";
 import Balance_Card from "@/components/cards/overview_header";
 import Pots_Card from "@/components/cards/overview_pots";
+import Transaction_Card from "@/components/cards/overview_transaction";
+import Budget_Card from "@/components/cards/overview_budget";
+import Recurring_Card from "@/components/cards/overview_recurring";
 
 export default function Home() {
   return (
@@ -24,7 +27,11 @@ export default function Home() {
       {/* <SignUp_form /> */}
       {/* <Delete /> */}
       <Balance_Card />
+
       <Pots_Card />
+      <Transaction_Card />
+      <Budget_Card />
+      <Recurring_Card />
       {/* Add other components here */}
     </main>
   );
