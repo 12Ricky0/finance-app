@@ -10,7 +10,7 @@ export default async function Layout({
     <main className="lg:flex">
       <Header />
       <Footer />
-      <div className="lg:ml-[300px] flex-1">{children}</div>
+      <div className=" flex-1">{children}</div>
     </main>
   );
 }

@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { use } from "react";
+import { FinanceContext } from "@/context";
 
 export default function Header() {
-  const [isMinimized, setIsMinimized] = useState(false);
+  const { setIsMinimized, isMinimized } = use(FinanceContext);
   return (
     <header
       className={`bg-gray-900 hidden lg:block fixed z-50 h-screen rounded-r-lg transition-all duration-500 ${
