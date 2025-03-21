@@ -11,7 +11,7 @@ export function Overview_Ui() {
   const { isMinimized } = useContext(FinanceContext);
   return (
     <section
-      className={`transition-all duration-500 ${
+      className={`transition-all duration-500 mb-8 ${
         isMinimized ? "lg:ml-[80px]" : "lg:ml-[300px]"
       }`}
     >
@@ -21,7 +21,7 @@ export function Overview_Ui() {
 
       <Balance_Card />
       <div className="lg:flex gap-6">
-        <div className="flex-1">
+        <div className="flex-1/12">
           <Pots_Card />
           <Transaction_Card />
         </div>

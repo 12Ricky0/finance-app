@@ -1,6 +1,22 @@
 import Image from "next/image";
+import data from "../../data.json";
 
 export default function Recurring_Card() {
+  const recurringBills = data.transactions.filter(
+    (bill) => bill.recurring === true
+  );
+  // .filter((cat) => new Date(cat.date).getMonth() > 6);
+
+  console.log(recurringBills);
+
+  const totalAmount = recurringBills.reduce(
+    (sum, bill) => sum + bill.amount,
+    0
+  );
+  const formatCurrency = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
   return (
     <section className="bg-white py-6 px-[20px] rounded-lg md:gap-6 mx-4 md:mx-[40px] lg:ml-0 md:p-[32px] mt-4 md:mt-6 mb-[68px] md:mb-[100px]">
       {" "}
@@ -18,16 +34,21 @@ export default function Recurring_Card() {
           />
         </div>
       </div>
-      <article className="bg-beige-100 flex justify-between items-center rounded-lg pr-4">
-        <div className="flex items-center py-[20p]">
-          <div className={`bg-[#277C78] w-[8px] h-[58px] rounded-l-[24px]`} />
+      {recurringBills.map((bil, index) => (
+        <article
+          key={index}
+          className="bg-beige-100 flex justify-between items-center rounded-lg pr-4"
+        >
+          <div className="flex items-center py-[20p]">
+            <div className={`bg-[#277C78] w-[8px] h-[58px] rounded-l-[24px]`} />
 
-          <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
-            Paid Bills
-          </p>
-        </div>
-        <h1 className="text-gray-900 font-bold text-[14px]">$190.00</h1>
-      </article>
+            <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
+              Paid Bills
+            </p>
+          </div>
+          <h1 className="text-gray-900 font-bold text-[14px]">{bil.amount}</h1>
+        </article>
+      ))}
     </section>
   );
 }
