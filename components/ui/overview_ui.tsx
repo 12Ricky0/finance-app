@@ -6,6 +6,7 @@ import Budget_Card from "../cards/overview_budget";
 import Recurring_Card from "../cards/overview_recurring";
 import { useContext } from "react";
 import { FinanceContext } from "@/context";
+import data from "../../data.json";
 
 export function Overview_Ui() {
   const { isMinimized } = useContext(FinanceContext);
@@ -19,7 +20,7 @@ export function Overview_Ui() {
         Overview
       </h1>
 
-      <Balance_Card />
+      <Balance_Card balance={data.balance} />
       <div className="lg:flex gap-6">
         <div className="flex-1/12">
           <Pots_Card />

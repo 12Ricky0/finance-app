@@ -1,5 +1,6 @@
 import Image from "next/image";
 import data from "../../data.json";
+import Link from "next/link";
 
 export default function Pots_Card() {
   const pots = data.pots.slice(0, 4);
@@ -15,7 +16,7 @@ export default function Pots_Card() {
       <div className="flex justify-between mb-[20px]">
         <h1 className="text-gray-900 font-bold text-[20px]">Pots</h1>
 
-        <div className="inline-flex items-center gap-3">
+        <Link href="/finance/pots" className="inline-flex items-center gap-3">
           <h2 className="font-normal text-[14px] text-gray-500">See Details</h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
@@ -24,7 +25,7 @@ export default function Pots_Card() {
             height={32}
             className=" w-auto h-auto cursor-pointer "
           />
-        </div>
+        </Link>
       </div>
       <div className="flex flex-col md:items-center md:flex-row gap-[20px]">
         <div className="bg-beige-100 rounded-lg px-[22px] md:flex-1/12 flex gap-x-[22px] py-[20px]">

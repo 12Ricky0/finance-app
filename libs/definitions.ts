@@ -36,3 +36,9 @@ export interface ChartProps {
   totalAmount: number;
   budgetsMaxAmount: number;
 }
+
+export interface BalanceProps {
+  current: number;
+  income: number;
+  expenses: number;
+}

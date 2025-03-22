@@ -7,16 +7,30 @@ export default function Recurring_Card() {
   );
   // .filter((cat) => new Date(cat.date).getMonth() > 6);
 
-  console.log(recurringBills);
+  //   const billsPaid = recurringBills
+  //     .filter((bill) => bill.category === "Bills")
+  //     .reduce((sum, bill) => sum + bill.amount, 0);
 
-  const totalAmount = recurringBills.reduce(
-    (sum, bill) => sum + bill.amount,
-    0
-  );
-  const formatCurrency = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  //   console.log(billsPaid);
+
+  //   const totalAmount = recurringBills.reduce(
+  //     (sum, bill) => sum + bill.amount,
+  //     0
+  //   );
+  //   const formatCurrency = new Intl.NumberFormat("en-US", {
+  //     style: "currency",
+  //     currency: "USD",
+  //   });
+
+  const currentDefaultDate = new Date("August 19, 2024");
+  const thisMonthTransactions = recurringBills
+    .filter(
+      (transaction) =>
+        new Date(transaction.date).getMonth() == currentDefaultDate.getMonth()
+    )
+    .reduce((total, { amount }) => total + amount, 0);
+
+  console.log(thisMonthTransactions);
   return (
     <section className="bg-white py-6 px-[20px] rounded-lg md:gap-6 mx-4 md:mx-[40px] lg:ml-0 md:p-[32px] mt-4 md:mt-6 mb-[68px] md:mb-[100px]">
       {" "}
@@ -34,21 +48,36 @@ export default function Recurring_Card() {
           />
         </div>
       </div>
-      {recurringBills.map((bil, index) => (
-        <article
-          key={index}
-          className="bg-beige-100 flex justify-between items-center rounded-lg pr-4"
-        >
-          <div className="flex items-center py-[20p]">
-            <div className={`bg-[#277C78] w-[8px] h-[58px] rounded-l-[24px]`} />
+      <article className="bg-beige-100 flex justify-between items-center mb-3 rounded-lg pr-4">
+        <div className="flex items-center py-[20p]">
+          <div className={`bg-[#277C78] w-[8px] h-[58px] rounded-l-[24px]`} />
 
-            <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
-              Paid Bills
-            </p>
-          </div>
-          <h1 className="text-gray-900 font-bold text-[14px]">{bil.amount}</h1>
-        </article>
-      ))}
+          <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
+            Paid Bills
+          </p>
+        </div>
+        <h1 className="text-gray-900 font-bold text-[14px]">{464}</h1>
+      </article>
+      <article className="bg-beige-100 flex justify-between mb-3 items-center rounded-lg pr-4">
+        <div className="flex items-center py-[20p]">
+          <div className={`bg-[#F2CDAC] w-[8px] h-[58px] rounded-l-[24px]`} />
+
+          <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
+            Total Upcoming
+          </p>
+        </div>
+        <h1 className="text-gray-900 font-bold text-[14px]">{2}</h1>
+      </article>
+      <article className="bg-beige-100 flex justify-between items-center rounded-lg pr-4">
+        <div className="flex items-center py-[20p]">
+          <div className={`bg-[#82C9D7] w-[8px] h-[58px] rounded-l-[24px]`} />
+
+          <p className="text-gray-500 font-normal pl-[10px] bg-beige-100 h-[60px] -translate-x-[5px] flex items-center rounded-l-lg text-[14px]">
+            Due Soon
+          </p>
+        </div>
+        <h1 className="text-gray-900 font-bold text-[14px]">{44}</h1>
+      </article>
     </section>
   );
 }
