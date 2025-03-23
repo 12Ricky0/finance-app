@@ -2,10 +2,12 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Pot_Form() {
   const [displayTheme, setDisplayTheme] = useState(false);
   const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
+  const router = useRouter();
 
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
@@ -38,6 +40,7 @@ export default function Pot_Form() {
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
+              onClick={() => router.back()}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">

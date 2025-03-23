@@ -50,17 +50,28 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        <div className={` py-4 mr-6 rounded-r-lg`}>
-          <Link href="" className="flex gap-4 items-center">
+        <div
+          className={`${
+            pathname == "/finance/transactions"
+              ? "bg-beige-100 ml-1 text-gray-900 shadow-[-4px_0_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300"
+              : "text-gray-300"
+          } py-4 mr-6 rounded-r-lg hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
+          <Link
+            href="/finance/transactions"
+            className="flex gap-4 items-center"
+          >
             <Image
-              src="/assets/images/icon-nav-transactions.svg"
+              src={`/assets/images/icon-nav-transactions${
+                pathname == "/finance/transactions" ? "-green" : ""
+              }.svg`}
               alt="transactions"
               width={32}
               height={32}
               className="h-auto w-auto ml-8"
             />
             <span
-              className={`text-gray-300 transition-all duration-500 font-bold text-[16px] ${
+              className={` transition-all duration-500 font-bold text-[16px] ${
                 isMinimized
                   ? "opacity-0 scale-0 w-0"
                   : "opacity-100 scale-100 w-auto"
@@ -71,7 +82,13 @@ export default function Header() {
             <div className={`h-1 bg-[#277C78] w-full hidden`} />
           </Link>
         </div>
-        <div className={` py-4 mr-6 rounded-r-lg`}>
+        <div
+          className={`${
+            pathname == "/finance/budget"
+              ? "bg-beige-100 ml-1 text-gray-900 shadow-[-4px_0_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300"
+              : "text-gray-300"
+          } py-4 mr-6 rounded-r-lg hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
           <Link href="" className="flex gap-4 items-center">
             <Image
               src="/assets/images/icon-nav-budgets.svg"
@@ -81,7 +98,7 @@ export default function Header() {
               className="h-auto w-auto ml-8"
             />
             <span
-              className={`text-gray-300 transition-all duration-500 font-bold text-[16px] ${
+              className={` transition-all duration-500 font-bold text-[16px] ${
                 isMinimized
                   ? "opacity-0 scale-0 w-0"
                   : "opacity-100 scale-100 w-auto"
@@ -98,7 +115,7 @@ export default function Header() {
             pathname == "/finance/pots"
               ? "bg-beige-100 ml-1 text-gray-900 shadow-[-4px_0_0_0_rgb(39,124,120,1)]"
               : "text-gray-300"
-          } py-4 mr-6 rounded-r-lg transition delay-150 duration-300`}
+          } py-4 mr-6 rounded-r-lg transition delay-150 duration-300 hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
         >
           <Link href="/finance/pots" className="flex gap-4 items-center">
             <Image
@@ -123,7 +140,13 @@ export default function Header() {
             <div className={`h-1 bg-[#277C78] w-full hidden`} />
           </Link>
         </div>
-        <div className={`py-4 mr-6 rounded-r-lg`}>
+        <div
+          className={`${
+            pathname == "/finance/recurring"
+              ? "bg-beige-100 ml-1 text-gray-900 shadow-[-4px_0_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300"
+              : "text-gray-300"
+          } py-4 mr-6 rounded-r-lg hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
           <Link href="" className="flex gap-4 items-center">
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"
@@ -133,7 +156,7 @@ export default function Header() {
               className="h-auto w-auto ml-8"
             />
             <span
-              className={`text-gray-300 transition-all duration-500 font-bold text-[16px] ${
+              className={`transition-all duration-500 font-bold text-[16px] ${
                 isMinimized
                   ? "opacity-0 scale-0 w-0"
                   : "opacity-100 scale-100 w-auto"
