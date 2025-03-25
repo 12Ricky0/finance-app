@@ -20,16 +20,16 @@ export default function Pagination({
       <button
         onClick={() => handleClick("prev")}
         disabled={activePage === 1}
-        className="cursor-pointer border border-beige-500 flex px-4 py-3 rounded-lg font-normal text-[14px] text-gray-900"
+        className="cursor-pointer border border-beige-500 flex justify-center px-4 py-3 rounded-lg font-normal text-[14px] text-gray-900"
       >
         <Image
           src="/assets/images/icon-caret-left.svg"
           alt="left"
           width={24}
           height={24}
-          className="w-auto h-auto mr-4 "
+          className="w-auto h-auto md:mr-4 "
         />
-        Prev
+        <span className="md:block hidden">Prev</span>
       </button>
 
       <div className="inline-flex gap-2">
@@ -37,7 +37,9 @@ export default function Pagination({
           <button
             key={i}
             onClick={() => handleClick(i + 1)}
-            className="size-10 rounded-lg border border-beige-500 font-normal text-[14px] text-gray-900"
+            className={`size-10 ${
+              activePage == i + 1 ? "bg-gray-900 text-white" : "text-gray-900"
+            } rounded-lg border border-beige-500 cursor-pointer hover:bg-gray-900 hover:text-white font-normal text-[14px] `}
           >
             {i + 1}
           </button>
@@ -47,15 +49,15 @@ export default function Pagination({
       <button
         onClick={() => handleClick("next")}
         disabled={activePage === totalPages}
-        className="cursor-pointer border border-beige-500 flex px-4 py-3 rounded-lg font-normal text-[14px] text-gray-900"
+        className={`cursor-pointer border border-beige-500 flex justify-center px-4 py-3 rounded-lg font-normal text-[14px] text-gray-900`}
       >
-        <span>Next</span>
+        <span className="hidden md:block">Next</span>
         <Image
           src="/assets/images/icon-caret-right.svg"
           alt="right"
           width={24}
           height={24}
-          className="w-auto h-auto ml-4 "
+          className="w-auto h-auto md:ml-4 "
         />
       </button>
     </footer>

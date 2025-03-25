@@ -1,7 +1,23 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface PaginationProps {
   totalPages: number;
   activePage: number;
   setActivePage: (value: number) => void;
+}
+
+export interface FinanceContextProps {
+  isMinimized: boolean;
+  setIsMinimized: Dispatch<SetStateAction<boolean>>;
+  category: string;
+  setCategory: Dispatch<SetStateAction<string>>;
+  sort: string;
+  setSort: Dispatch<SetStateAction<string>>;
+}
+
+export interface CategoryProps {
+  category: string;
+  setCategory: (value: string) => void;
 }
 
 export interface TransactionProps {
