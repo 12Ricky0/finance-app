@@ -15,6 +15,27 @@ export default function Pagination({
 
     setActivePage(newPage);
   };
+
+  const getPaginationNumbers = () => {
+    if (totalPages <= 4) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    const pages: (string | number)[] = [1];
+
+    if (activePage > 3) pages.push("...");
+
+    if (activePage > 2) pages.push(activePage - 1);
+    if (activePage !== 1 && activePage !== totalPages) pages.push(activePage);
+    if (activePage < totalPages - 1) pages.push(activePage + 1);
+
+    if (activePage < totalPages - 2) pages.push("...");
+
+    pages.push(totalPages);
+
+    return pages;
+  };
+
   return (
     <footer className="flex justify-between mt-12">
       <button
@@ -33,17 +54,23 @@ export default function Pagination({
       </button>
 
       <div className="inline-flex gap-2">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => handleClick(i + 1)}
-            className={`size-10 ${
-              activePage == i + 1 ? "bg-gray-900 text-white" : "text-gray-900"
-            } rounded-lg border border-beige-500 cursor-pointer hover:bg-gray-900 hover:text-white font-normal text-[14px] `}
-          >
-            {i + 1}
-          </button>
-        ))}{" "}
+        {getPaginationNumbers().map((page, i) =>
+          typeof page === "number" ? (
+            <button
+              key={i}
+              onClick={() => handleClick(page)}
+              className={`size-10 ${
+                activePage === page ? "bg-gray-900 text-white" : "text-gray-900"
+              } rounded-lg border border-beige-500 cursor-pointer hover:bg-gray-900 hover:text-white font-normal text-[14px]`}
+            >
+              {page}
+            </button>
+          ) : (
+            <span key={i} className="mx-2">
+              ...
+            </span>
+          )
+        )}
       </div>
 
       <button
