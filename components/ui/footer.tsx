@@ -14,7 +14,7 @@ export default function Footer() {
             pathname == "/finance/overview"
               ? "bg-beige-100 text-gray-900 shadow-[0_4px_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300 mb-1"
               : "text-gray-300"
-          } pt-2 rounded-t-lg hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+          } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
         >
           <Link href="/finance/overview" className="flex flex-col items-center">
             <Image
@@ -24,7 +24,7 @@ export default function Footer() {
               alt="overview"
               width={32}
               height={32}
-              className="h-auto w-auto pb-2 px-[22px]"
+              className="h-auto w-auto pb-2 "
             />
             <span
               className={` font-bold text-[12px] px-[25px] hidden md:block pb-3`}
@@ -35,35 +35,50 @@ export default function Footer() {
             {/* <div className="h-1 bg-[#277C78] w-full" /> */}
           </Link>
         </div>
-        <div className={` pt-2 rounded-t-lg `}>
-          <Link href="" className="flex flex-col items-center">
+        <div
+          className={`${
+            pathname == "/finance/transactions"
+              ? "bg-beige-100 text-gray-900 shadow-[0_4px_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300 mb-1"
+              : "text-gray-300"
+          } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
+          <Link
+            href="/finance/transactions"
+            className="flex flex-col items-center"
+          >
             <Image
-              src="/assets/images/icon-nav-transactions.svg"
+              src={`/assets/images/icon-nav-transactions${
+                pathname == "/finance/transactions" ? "-green" : ""
+              }.svg`}
               alt="transactions"
               width={32}
               height={32}
-              className="h-auto w-auto pb-2 px-[22px]"
+              className="h-auto w-auto pb-2 "
             />
-            <span
-              className={`text-gray-300 hidden md:block pb-3  font-bold text-[12px]`}
-            >
+            <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Transactions
             </span>
             {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div className={` pt-2 rounded-t-lg `}>
-          <Link href="" className="flex flex-col items-center">
+        <div
+          className={`${
+            pathname == "/finance/budget"
+              ? "bg-beige-100 text-gray-900 shadow-[0_4px_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300 mb-1"
+              : "text-gray-300"
+          } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
+          <Link href="/finance/budget" className="flex flex-col items-center">
             <Image
-              src="/assets/images/icon-nav-budgets.svg"
+              src={`/assets/images/icon-nav-budgets${
+                pathname == "/finance/budget" ? "-green" : ""
+              }.svg`}
               alt="budgets"
               width={32}
               height={32}
-              className="h-auto w-auto pb-2 px-[22px]"
+              className="h-auto w-auto pb-2 "
             />
-            <span
-              className={`text-gray-300 hidden md:block pb-3  font-bold text-[12px]`}
-            >
+            <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Budget
             </span>
 
@@ -75,7 +90,7 @@ export default function Footer() {
             pathname == "/finance/pots"
               ? "bg-beige-100 text-gray-900 shadow-[0_4px_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300 mb-1"
               : "text-gray-300"
-          } pt-2 rounded-t-lg hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900 md:px-[22px]`}
+          } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900 `}
         >
           <Link href="/finance/pots" className="flex flex-col items-center">
             <Image
@@ -85,7 +100,7 @@ export default function Footer() {
               alt="pots"
               width={32}
               height={32}
-              className="h-auto w-auto pb-2 px-[22px]"
+              className="h-auto w-auto pb-2"
             />
             <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Pots
@@ -94,14 +109,20 @@ export default function Footer() {
             {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
-        <div className={`pt-2 rounded-t-lg `}>
+        <div
+          className={`${
+            pathname == "/finance/recurring"
+              ? "bg-beige-100 text-gray-900 shadow-[0_4px_0_0_rgb(39,124,120,1)] transition-colors delay-150 duration-300 mb-1"
+              : "text-gray-300"
+          } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
           <Link href="" className="flex flex-col items-center">
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"
               alt="recurring"
               width={32}
               height={32}
-              className="h-auto w-auto pb-2 px-[22px]"
+              className="h-auto w-auto pb-2 "
             />
             <span
               className={`text-gray-300 hidden md:block pb-3  font-bold text-[12px]`}
