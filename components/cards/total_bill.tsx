@@ -1,8 +1,26 @@
 import Image from "next/image";
+import data from "../../data.json";
 
 export default function Total_Bill_Card() {
+  const formatCurrency = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  const currentDefaultDate = new Date("August 19, 2024");
+
+  const recurringBills = data.transactions.filter(
+    (transaction) => transaction.recurring === true
+  );
+
+  const totalBills = data.transactions
+    .filter((transaction) => transaction.recurring === true)
+    .filter(
+      (cat) => new Date(cat.date).getMonth() == currentDefaultDate.getMonth()
+    )
+    .reduce((acc, transaction) => acc + transaction.amount, 0);
   return (
-    <section className="flex flex-col md:flex-row md:justify-between gap-6 lg:flex-col">
+    <section className="flex mx-4 flex-col md:flex-row md:justify-between gap-6 lg:flex-col">
       <div className="bg-gray-900 rounded-lg w-full py-6 px-[20px] md:flex-col md:items-start md:px-6 md:gap-[32px] md:pt-[38px] flex items-center gap-[20px]">
         <Image
           src="/assets/images/icon-recurring-bills.svg"
@@ -15,7 +33,7 @@ export default function Total_Bill_Card() {
           <span className="font-normal text-[14px] text-white">
             Total bills
           </span>
-          <span className="font-bold text-[32px] text-white">$384.98</span>
+          <span className="font-bold text-[32px] text-white">{totalBills}</span>
         </div>
       </div>
 

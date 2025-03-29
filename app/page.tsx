@@ -10,7 +10,7 @@ import Pot_Withdrawal from "@/components/forms/pot_withdraw_form";
 import Pot_Loading from "@/components/skeletons/pot_skeleton";
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
-import { Budget_Plan, Budget_Graph } from "@/components/ui/budget_containers";
+import { Budget_Plan, Budget_Graph } from "@/components/ui/budget_ui";
 import Chart from "@/components/ui/charts";
 import Transactions from "@/components/ui/transactions";
 import Total_Bill_Card from "@/components/cards/total_bill";

@@ -149,7 +149,7 @@ export default function Header() {
               : "text-gray-300"
           } py-4 mr-6 rounded-r-lg hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
         >
-          <Link href="" className="flex gap-4 items-center">
+          <Link href="/finance/recurring" className="flex gap-4 items-center">
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"
               alt="recurring"

@@ -1,27 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { Sort_Dropdown } from "../ui/dropdown";
 
 export default function Recurring_Bill_Card() {
-  const [sort, setSort] = useState("Latest");
-  const [displaySort, setDisplaySort] = useState(false);
-
-  const sortLists = [
-    "Latest",
-    "Oldest",
-    "A to Z",
-    "Z to A",
-    "Highest",
-    "Lowest",
-  ];
-
   return (
     <section className="bg-white mx-4 md:mx-10 md:py-8 pt-6 pb-8 px-[20px] relative rounded-lg">
-      <div className="flex justify-between items-center gap-6">
-        <div className="relative ">
+      <div className="flex lg:w-full justify-between items-center gap-6">
+        <div className="relative w-full">
           <input
             type="search"
-            className="py-3 border border-beige-500 rounded-lg px-[20px] lg:w-[320px] md:w-[160px]"
+            className="py-3 border w-full border-beige-500 rounded-lg px-[20px] lg:w-[320px] md:w-[160px]"
             placeholder="Search bills"
           />
           <Image
@@ -32,88 +21,7 @@ export default function Recurring_Bill_Card() {
             className="w-auto h-auto  cursor-pointer absolute right-[20px] top-1/3"
           />
         </div>
-        <div className="md:flex gap-6 hidden">
-          <div className="relative">
-            <div
-              onClick={() => setDisplaySort(!displaySort)}
-              className="flex  gap-2 items-center  cursor-pointer"
-            >
-              <span className="font-normal text-gray-500 text-[14px]">
-                Sort By
-              </span>
-              <div className="border-gray-500 border px-[20px] flex gap-4 py-3 rounded-lg">
-                <span className="font-normal text-gray-900 text-[14px]">
-                  {sort}
-                </span>
-                <Image
-                  src="/assets/images/icon-caret-down.svg"
-                  alt="down"
-                  width={24}
-                  height={24}
-                  className="w-auto h-auto cursor-pointer"
-                />
-              </div>
-            </div>
-            {displaySort && (
-              <ul
-                className={`bg-white cursor-pointer transition-all duration-500 rounded-lg absolute right-0 drop-shadow-2xl px-[20px] mt-2 pt-3 flex flex-col gap-3 transform origin-top ${
-                  displaySort
-                    ? "opacity-100 scale-100"
-                    : "opacity-0 scale-95 pointer-events-none"
-                }`}
-              >
-                {sortLists.map((list) => {
-                  return (
-                    <li
-                      onClick={() => setSort(list)}
-                      className={`border-b border-beige-100 text-gray-900 last:border-0 pb-3 text-[12px] ${
-                        list == sort ? "font-bold" : "font-normal"
-                      }`}
-                      key={list}
-                    >
-                      {list}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}{" "}
-          </div>
-        </div>
-        <div
-          onClick={() => setDisplaySort(!displaySort)}
-          className="relative shrink- md:hidden"
-        >
-          <Image
-            src="/assets/images/icon-sort-mobile.svg"
-            alt="search"
-            width={24}
-            height={24}
-            className="w-auto h-auto cursor-pointer md:hidden"
-          />
-          {displaySort && (
-            <ul
-              className={`bg-white  cursor-pointer transition-all duration-500 rounded-lg absolute right-0 drop-shadow-2xl px-[20px] mt-2 pt-3 flex flex-col gap-3 transform origin-top ${
-                displaySort
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-95 pointer-events-none"
-              }`}
-            >
-              {sortLists.map((list) => {
-                return (
-                  <li
-                    onClick={() => setSort(list)}
-                    className={`border-b border-beige-100 text-gray-900 last:border-0 pb-3 text-[12px] ${
-                      list == sort ? "font-bold" : "font-normal"
-                    }`}
-                    key={list}
-                  >
-                    {list}
-                  </li>
-                );
-              })}
-            </ul>
-          )}{" "}
-        </div>
+        <Sort_Dropdown />
       </div>
       <div className="flex gap-2 flex-col border-b pb-[20px] mt-6 md:hidden border-gray-300">
         <div className="inline-flex items-center gap-3">
