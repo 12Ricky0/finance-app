@@ -1,5 +1,6 @@
 import Image from "next/image";
 import data from "../../data.json";
+import Link from "next/link";
 
 export default function Recurring_Card() {
   const recurringBills = data.transactions.filter(
@@ -37,7 +38,10 @@ export default function Recurring_Card() {
       <div className="flex justify-between mb-[32px]">
         <h1 className="text-gray-900 font-bold text-[20px]">Recurring Bills</h1>
 
-        <div className="inline-flex items-center gap-3">
+        <Link
+          href="/finance/recurring"
+          className="inline-flex items-center gap-3"
+        >
           <h2 className="font-normal text-[14px] text-gray-500">See Details</h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
@@ -46,7 +50,7 @@ export default function Recurring_Card() {
             height={32}
             className=" w-auto h-auto cursor-pointer "
           />
-        </div>
+        </Link>
       </div>
       <article className="bg-beige-100 flex justify-between items-center mb-3 rounded-lg pr-4">
         <div className="flex items-center py-[20p]">

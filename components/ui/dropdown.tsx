@@ -114,7 +114,7 @@ export function Sort_Dropdown() {
       <div className="relative hidden md:block">
         <div
           onClick={() => setDisplaySort(!displaySort)}
-          className="flex  gap-2 items-center  cursor-pointer"
+          className="flex gap-2 items-center cursor-pointer"
         >
           <span className="font-normal text-gray-500 text-[14px]">Sort By</span>
           <div className="border-gray-500 border px-[20px] flex gap-4 py-3 rounded-lg">

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Chart from "../ui/charts";
 import data from "../../data.json";
+import Link from "next/link";
 
 export default function Budget_Card() {
   const budgets = data.budgets.slice(0, 4);
@@ -21,7 +22,7 @@ export default function Budget_Card() {
       <div className="flex justify-between mb-[32px]">
         <h1 className="text-gray-900 font-bold text-[20px]">Budgets</h1>
 
-        <div className="inline-flex items-center gap-3">
+        <Link href="/finance/budget" className="inline-flex items-center gap-3">
           <h2 className="font-normal text-[14px] text-gray-500">See Details</h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
@@ -30,7 +31,7 @@ export default function Budget_Card() {
             height={32}
             className=" w-auto h-auto cursor-pointer "
           />
-        </div>
+        </Link>
       </div>
       <div className="flex flex-col gap-4 md:flex-row ">
         <div className="mx-auto">

@@ -1,13 +1,17 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 
-export default function Delete() {
+interface DeleteProps {
+  header: string;
+  setDeleteModal: (value: boolean) => void;
+}
+export default function Delete({ setDeleteModal, header }: DeleteProps) {
   return (
     <Overlay>
       <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
         <div className="flex justify-between">
           <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
-            Delete `Entertainment`?
+            Delete `{header}`?
           </h1>
           <Image
             src="/assets/images/icon-close-modal.svg"
@@ -15,6 +19,7 @@ export default function Delete() {
             width={32}
             height={32}
             className=" w-auto h-auto cursor-pointer "
+            onClick={() => setDeleteModal(false)}
           />
         </div>
         <p className="text-[14px] font-normal my-[20px] text-gray-500">

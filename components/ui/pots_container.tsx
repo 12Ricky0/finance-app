@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import { FinanceContext } from "@/context";
-import { use } from "react";
+import { use, useState } from "react";
 import data from "../../data.json";
 import Link from "next/link";
+import Delete from "./delete_modal";
 
 export default function Pot_Container() {
   const formatCurrency = new Intl.NumberFormat("en-US", {
@@ -16,6 +17,14 @@ export default function Pot_Container() {
     return percentage;
   }
   const { isMinimized } = use(FinanceContext);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedPot, setSelectedPot] = useState<string>("");
+
+  function toggleDropdown(index: number) {
+    setActiveDropdown(activeDropdown === index ? null : index);
+  }
+
   return (
     <section className="mb-[76px] md:mb-[106px] lg:mb-8">
       <div
@@ -41,7 +50,7 @@ export default function Pot_Container() {
         {data.pots.map((pot, index) => (
           <section
             key={index}
-            className={`bg-white  px-[20px] pt-6 pb-[38px] rounded-xl`}
+            className={`bg-white  px-[20px] pt-6 pb-[38px] relative rounded-xl`}
           >
             <div className="flex justify-between items-center mb-8">
               <div className="flex gap-4 items-center">
@@ -59,7 +68,27 @@ export default function Pot_Container() {
                 width={32}
                 height={32}
                 className=" w-auto h-auto cursor-pointer "
+                onClick={() => {
+                  toggleDropdown(index);
+                  setSelectedPot(pot.name);
+                }}
               />
+              {activeDropdown === index && (
+                <div className="w-[114px] cursor-pointer absolute right-[20px] top-[50px] flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
+                  <span className="border-b border-gray-100 text-gray-900 pb-3">
+                    Edit Pot
+                  </span>
+                  <span
+                    onClick={() => {
+                      setDeleteModal(!deleteModal);
+                      setActiveDropdown(null);
+                    }}
+                    className="pt-3 text-[#C94736]"
+                  >
+                    Delete Pot
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="w-full">
@@ -101,6 +130,9 @@ export default function Pot_Container() {
           </section>
         ))}
       </div>
+      {deleteModal && (
+        <Delete setDeleteModal={setDeleteModal} header={selectedPot} />
+      )}
     </section>
   );
 }

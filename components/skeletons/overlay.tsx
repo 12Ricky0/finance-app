@@ -1,11 +1,12 @@
 "use client";
 import { ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export function Overlay({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   function handleClick(e: React.MouseEvent) {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && pathname != "/finance/pots") {
       router.back();
     }
   }

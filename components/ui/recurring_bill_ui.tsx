@@ -15,11 +15,13 @@ export default function Recurring_Bill_UI() {
         isMinimized ? "lg:ml-[80px]" : "lg:ml-[300px]"
       }`}
     >
-      <h1 className={`font-bold text-[32px] text-gray-900 mx-3.5 mt-6 pb-8`}>
+      <h1
+        className={`font-bold text-[32px] text-gray-900 mx-6 md:mx-[40px] mt-6 pb-8`}
+      >
         Recurring Bills
       </h1>
 
-      <div className="flex gap-6 lg:flex-row justify-between  flex-col">
+      <div className="flex gap-6 lg:flex-row justify-between md:mx-[40px] flex-col">
         <div className="flex-1">
           <Total_Bill_Card />
         </div>

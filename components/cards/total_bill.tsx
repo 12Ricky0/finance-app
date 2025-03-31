@@ -20,7 +20,7 @@ export default function Total_Bill_Card() {
     )
     .reduce((acc, transaction) => acc + transaction.amount, 0);
   return (
-    <section className="flex mx-4 flex-col md:flex-row md:justify-between gap-6 lg:flex-col">
+    <section className="flex mx-4 md:mx-0 flex-col md:flex-row md:justify-between gap-6 lg:flex-col">
       <div className="bg-gray-900 rounded-lg w-full py-6 px-[20px] md:flex-col md:items-start md:px-6 md:gap-[32px] md:pt-[38px] flex items-center gap-[20px]">
         <Image
           src="/assets/images/icon-recurring-bills.svg"

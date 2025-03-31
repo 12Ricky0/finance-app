@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import data from "../../data.json";
+import Link from "next/link";
+
 export default function Transaction_Card() {
   const transactions = data.transactions.slice(0, 5);
 
@@ -13,7 +15,10 @@ export default function Transaction_Card() {
       <div className="flex justify-between mb-[12px]">
         <h1 className="text-gray-900 font-bold text-[20px]">Transactions</h1>
 
-        <div className="inline-flex items-center gap-3">
+        <Link
+          href="/finance/transactions"
+          className="inline-flex items-center gap-3"
+        >
           <h2 className="font-normal text-[14px] text-gray-500">View All</h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
@@ -22,7 +27,7 @@ export default function Transaction_Card() {
             height={32}
             className=" w-auto h-auto cursor-pointer "
           />
-        </div>
+        </Link>
       </div>
       {transactions.map((transaction, index) => (
         <div
