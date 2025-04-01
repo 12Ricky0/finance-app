@@ -5,6 +5,7 @@ import { Sort_Dropdown } from "../ui/dropdown";
 import data from "../../data.json";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { FinanceContext } from "@/context";
+import { TransactionProps } from "@/libs/definitions";
 
 export default function Recurring_Bill_Card() {
   const pathname = usePathname();
@@ -12,7 +13,7 @@ export default function Recurring_Bill_Card() {
   const router = useRouter();
   const searchInput = searchParams.get("query")?.toString();
   const { sort } = use(FinanceContext);
-  const currentDefaultDate = new Date("August 19, 2024");
+  const paymentDate = new Date("August 19, 2024");
 
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -23,22 +24,33 @@ export default function Recurring_Bill_Card() {
     if (day > 3 && day < 21) return `${day}th`;
     switch (day % 10) {
       case 1:
-        return "1st";
+        return `${day}st`;
       case 2:
-        return "2nd";
+        return `${day}nd`;
       case 3:
-        return "3rd";
+        return `${day}rd`;
       default:
         return `${day}th`;
     }
   };
 
-  const recurringBills = data.transactions
-    .filter((transaction) => transaction.recurring === true)
-    .filter(
-      (cat) => new Date(cat.date).getMonth() == currentDefaultDate.getMonth()
-    );
-  const [transactions, setTransactions] = useState(recurringBills);
+  const recurringBills = data.transactions.filter(
+    (transaction) => transaction.recurring === true
+  );
+
+  const uniqueRecurringBills: TransactionProps[] = [];
+  const seenNames = new Set();
+
+  for (const bill of recurringBills) {
+    if (!seenNames.has(bill.name)) {
+      seenNames.add(bill.name);
+      uniqueRecurringBills.push(bill);
+    }
+  }
+  // .filter(
+  //   (cat) => new Date(cat.date).getMonth() < currentDefaultDate.getMonth()
+  // );
+  const [transactions, setTransactions] = useState(uniqueRecurringBills);
 
   function handleSearch(term: string) {
     const params = new URLSearchParams(searchParams);
@@ -52,12 +64,19 @@ export default function Recurring_Bill_Card() {
   }
 
   useEffect(() => {
-    const recurring = data.transactions
-      .filter((transaction) => transaction.recurring === true)
-      .filter(
-        (cat) => new Date(cat.date).getMonth() == currentDefaultDate.getMonth()
-      );
-    let filteredTransactions = recurring;
+    const recurring = data.transactions.filter(
+      (transaction) => transaction.recurring === true
+    );
+    const uniqueRecurringBills: TransactionProps[] = [];
+    const seenNames = new Set();
+
+    for (const bill of recurring) {
+      if (!seenNames.has(bill.name)) {
+        seenNames.add(bill.name);
+        uniqueRecurringBills.push(bill);
+      }
+    }
+    let filteredTransactions = uniqueRecurringBills;
     if (searchInput) {
       filteredTransactions = filteredTransactions.filter((transaction) =>
         transaction.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -121,26 +140,48 @@ export default function Recurring_Bill_Card() {
               alt="right"
               width={32}
               height={32}
-              className=" w-auto h-auto rounded-full cursor-pointer"
+              className="  rounded-full cursor-pointer"
             />
             <h2 className="font-bold text-[14px] text-gray-900">{bill.name}</h2>
           </div>
 
           <div className="flex justify-between">
             <div className="inline-flex gap-2 items-center ">
-              <span className="font-normal text-[12px] text-[#277C78]">
+              <span
+                className={`font-normal text-[12px] ${
+                  new Date(bill.date).getDate() < paymentDate.getDate()
+                    ? "text-[#277C78]"
+                    : "text-gray-500"
+                } `}
+              >
                 Monthly - {getOrdinalSuffix(new Date(bill.date).getDate())}
               </span>
 
               <Image
-                src="/assets/images/icon-selected.svg"
+                src={`/assets/images/icon-bill-${
+                  new Date(bill.date).getDate() < paymentDate.getDate()
+                    ? "paid"
+                    : new Date(bill.date).getDate() <=
+                        paymentDate.getDate() + 5 && "due"
+                }.svg`}
                 alt="right"
                 width={32}
                 height={32}
-                className=" w-auto h-auto cursor-pointer"
+                className={`w-auto h-auto ${
+                  new Date(bill.date).getDate() >
+                    Math.min(paymentDate.getDate() + 5, 31) && "hidden"
+                } cursor-pointer`}
               />
             </div>
-            <span className="font-bold text-[14px] text-gray-900">
+            <span
+              className={`font-bold text-[14px] ${
+                new Date(bill.date).getDate() < paymentDate.getDate()
+                  ? "text-gray-900"
+                  : new Date(bill.date).getDate() <= paymentDate.getDate() + 5
+                  ? "text-[#C94736]"
+                  : "text-gray-900"
+              }  text-right pr-4 py-3`}
+            >
               {formatCurrency.format(bill.amount)}
             </span>
           </div>
@@ -173,22 +214,44 @@ export default function Recurring_Bill_Card() {
                   {bill.name}
                 </h2>
               </td>
-              <td className="text-center  text-[#277C78] py-3">
+              <td
+                className={`text-center  ${
+                  new Date(bill.date).getDate() < paymentDate.getDate()
+                    ? "text-[#277C78]"
+                    : "text-gray-500"
+                } py-3`}
+              >
                 <div className="flex justify-center gap-2">
                   <span>
                     Monthly - {getOrdinalSuffix(new Date(bill.date).getDate())}
                   </span>
                   <Image
-                    src="/assets/images/icon-selected.svg"
+                    src={`/assets/images/icon-bill-${
+                      new Date(bill.date).getDate() < paymentDate.getDate()
+                        ? "paid"
+                        : new Date(bill.date).getDate() <=
+                            paymentDate.getDate() + 5 && "due"
+                    }.svg`}
                     alt="right"
                     width={32}
                     height={32}
-                    className=" w-auto h-auto cursor-pointer"
+                    className={`w-auto h-auto ${
+                      new Date(bill.date).getDate() >
+                        Math.min(paymentDate.getDate() + 5, 31) && "hidden"
+                    } cursor-pointer`}
                   />
                 </div>
               </td>
-              <td className="font-bold text-[14px] text-gray-900 text-right pr-4 py-3">
-                {formatCurrency.format(bill.amount)}
+              <td
+                className={`font-bold text-[14px] ${
+                  new Date(bill.date).getDate() < paymentDate.getDate()
+                    ? "text-gray-900"
+                    : new Date(bill.date).getDate() <= paymentDate.getDate() + 5
+                    ? "text-[#C94736]"
+                    : "text-gray-900"
+                }  text-right pr-4 py-3`}
+              >
+                {formatCurrency.format(Math.abs(bill.amount))}
               </td>
             </tr>
           ))}

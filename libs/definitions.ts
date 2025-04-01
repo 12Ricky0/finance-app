@@ -21,8 +21,7 @@ export interface CategoryProps {
 }
 
 export interface TransactionProps {
-  id: string;
-
+  id?: string;
   avatar: string;
   name: string;
   category: string;

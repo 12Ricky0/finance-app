@@ -3,35 +3,48 @@ import data from "../../data.json";
 import Link from "next/link";
 
 export default function Recurring_Card() {
-  const recurringBills = data.transactions.filter(
-    (bill) => bill.recurring === true
-  );
-  // .filter((cat) => new Date(cat.date).getMonth() > 6);
-
-  //   const billsPaid = recurringBills
-  //     .filter((bill) => bill.category === "Bills")
-  //     .reduce((sum, bill) => sum + bill.amount, 0);
-
-  //   console.log(billsPaid);
-
-  //   const totalAmount = recurringBills.reduce(
-  //     (sum, bill) => sum + bill.amount,
-  //     0
-  //   );
-  //   const formatCurrency = new Intl.NumberFormat("en-US", {
-  //     style: "currency",
-  //     currency: "USD",
-  //   });
-
   const currentDefaultDate = new Date("August 19, 2024");
-  const thisMonthTransactions = recurringBills
-    .filter(
-      (transaction) =>
-        new Date(transaction.date).getMonth() == currentDefaultDate.getMonth()
-    )
-    .reduce((total, { amount }) => total + amount, 0);
 
-  console.log(thisMonthTransactions);
+  const formatCurrency = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+  const recurringBills = data.transactions.filter(
+    (transaction) => transaction.recurring === true
+  );
+
+  const uniqueRecurringBills = [];
+  const seenNames = new Set();
+
+  for (const bill of recurringBills) {
+    if (!seenNames.has(bill.name)) {
+      seenNames.add(bill.name);
+      uniqueRecurringBills.push(bill);
+    }
+  }
+
+  const paidBills = uniqueRecurringBills
+    .filter(
+      (bill) => new Date(bill.date).getDate() < currentDefaultDate.getDate()
+    )
+    .reduce((acc, transaction) => transaction.amount + acc, 0);
+
+  const dueSoon = uniqueRecurringBills
+    .filter((bill) => {
+      const billDate = new Date(bill.date).getDate();
+      const currentDate = currentDefaultDate.getDate();
+
+      return billDate > currentDate && billDate <= currentDate + 5;
+    })
+    .reduce((acc, transaction) => transaction.amount + acc, 0);
+
+  const totalUpcomingBills = uniqueRecurringBills
+    .filter(
+      (bill) => new Date(bill.date).getDate() > currentDefaultDate.getDate() + 5
+    )
+    .reduce((acc, transaction) => transaction.amount + acc, 0);
+
   return (
     <section className="bg-white py-6 px-[20px] rounded-lg md:gap-6 mx-4 md:mx-[40px] lg:ml-0 md:p-[32px] mt-4 md:mt-6 mb-[68px] md:mb-[100px]">
       {" "}
@@ -60,7 +73,9 @@ export default function Recurring_Card() {
             Paid Bills
           </p>
         </div>
-        <h1 className="text-gray-900 font-bold text-[14px]">{464}</h1>
+        <h1 className="text-gray-900 font-bold text-[14px]">
+          {formatCurrency.format(Math.abs(paidBills))}
+        </h1>
       </article>
       <article className="bg-beige-100 flex justify-between mb-3 items-center rounded-lg pr-4">
         <div className="flex items-center py-[20p]">
@@ -70,7 +85,9 @@ export default function Recurring_Card() {
             Total Upcoming
           </p>
         </div>
-        <h1 className="text-gray-900 font-bold text-[14px]">{2}</h1>
+        <h1 className="text-gray-900 font-bold text-[14px]">
+          {formatCurrency.format(Math.abs(totalUpcomingBills))}
+        </h1>
       </article>
       <article className="bg-beige-100 flex justify-between items-center rounded-lg pr-4">
         <div className="flex items-center py-[20p]">
@@ -80,7 +97,9 @@ export default function Recurring_Card() {
             Due Soon
           </p>
         </div>
-        <h1 className="text-gray-900 font-bold text-[14px]">{44}</h1>
+        <h1 className="text-gray-900 font-bold text-[14px]">
+          {formatCurrency.format(Math.abs(dueSoon))}
+        </h1>
       </article>
     </section>
   );
