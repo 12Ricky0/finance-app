@@ -1,4 +1,4 @@
-import Chart from "../ui/charts";
+import Chart from "../containers/charts";
 import data from "../../data.json";
 
 export default function Budget_Summary_Card() {

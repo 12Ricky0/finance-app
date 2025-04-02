@@ -4,7 +4,7 @@ import { FinanceContext } from "@/context";
 import { use, useState } from "react";
 import data from "../../data.json";
 import Link from "next/link";
-import Delete from "./delete_modal";
+import Delete from "../ui/delete_modal";
 
 export default function Pot_Container() {
   const formatCurrency = new Intl.NumberFormat("en-US", {

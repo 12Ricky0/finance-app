@@ -1,4 +1,4 @@
-import Pot_Container from "@/components/ui/pots_container";
+import Pot_Container from "@/components/containers/pots_container";
 
 export default function Pots() {
   return (

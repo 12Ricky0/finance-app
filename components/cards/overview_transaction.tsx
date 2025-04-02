@@ -19,7 +19,9 @@ export default function Transaction_Card() {
           href="/finance/transactions"
           className="inline-flex items-center gap-3"
         >
-          <h2 className="font-normal text-[14px] text-gray-500">View All</h2>
+          <h2 className="font-normal text-[14px] hover:text-gray-900 text-gray-500">
+            View All
+          </h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
             alt="right"

@@ -4,7 +4,7 @@ import Pagination from "./pagination";
 import { useState, use, useEffect } from "react";
 import { FinanceContext } from "@/context";
 import data from "../../data.json";
-import { Category_Dropdown, Sort_Dropdown } from "./dropdown";
+import { Category_Dropdown, Sort_Dropdown } from "../ui/dropdown";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export default function Transaction() {

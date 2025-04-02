@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Chart from "../ui/charts";
+import Chart from "../containers/charts";
 import data from "../../data.json";
 import Link from "next/link";
 
@@ -23,7 +23,9 @@ export default function Budget_Card() {
         <h1 className="text-gray-900 font-bold text-[20px]">Budgets</h1>
 
         <Link href="/finance/budget" className="inline-flex items-center gap-3">
-          <h2 className="font-normal text-[14px] text-gray-500">See Details</h2>
+          <h2 className="font-normal text-[14px] hover:text-gray-900 text-gray-500">
+            See Details
+          </h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
             alt="right"

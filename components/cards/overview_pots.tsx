@@ -3,13 +3,10 @@ import data from "../../data.json";
 import Link from "next/link";
 
 export default function Pots_Card() {
-  const pots = data.pots.slice(0, 4);
+  const allPots = data.pots;
+  const pots = allPots.slice(0, 4);
 
-  const totalPot = data.pots.reduce((sum, pot) => sum + pot.total, 0);
-  const formatCurrency = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  const totalPot = allPots.reduce((sum, pot) => sum + pot.total, 0);
 
   return (
     <section className="bg-white py-6 px-[20px] rounded-lg md:gap-6 mx-4 md:mx-[40px] md:p-[32px] lg:mr-0 mt-8 md:mt-6 mb-4 md:mb-6">
@@ -17,7 +14,9 @@ export default function Pots_Card() {
         <h1 className="text-gray-900 font-bold text-[20px]">Pots</h1>
 
         <Link href="/finance/pots" className="inline-flex items-center gap-3">
-          <h2 className="font-normal text-[14px] text-gray-500">See Details</h2>
+          <h2 className="font-normal text-[14px] hover:text-gray-900 text-gray-500">
+            See Details
+          </h2>
           <Image
             src="/assets/images/icon-caret-right.svg"
             alt="right"

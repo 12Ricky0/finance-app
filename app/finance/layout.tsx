@@ -1,5 +1,5 @@
-import Footer from "@/components/ui/footer";
-import Header from "@/components/ui/header";
+import Footer from "@/components/containers/footer";
+import Header from "@/components/containers/header";
 
 export default async function Layout({
   children,
