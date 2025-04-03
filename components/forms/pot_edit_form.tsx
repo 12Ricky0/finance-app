@@ -2,26 +2,14 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function Budget_Form() {
-  const [displayCategory, setDisplayCategory] = useState(false);
+interface DisplayProps {
+  setDisplayForm: (value: boolean) => void;
+}
+
+export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
   const [displayTheme, setDisplayTheme] = useState(false);
-  const [category, setCategory] = useState("Entertainment");
   const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
-  const router = useRouter();
-  const options = [
-    "Entertainment",
-    "Bills",
-    "Groceries",
-    "Dinning Out",
-    "Transportation",
-    "Personal Care",
-    "Education",
-    "Lifestyle",
-    "Shopping",
-    "General",
-  ];
 
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
@@ -43,10 +31,10 @@ export default function Budget_Form() {
   return (
     <Overlay>
       <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
-        <article className="relative">
+        <form className="relative">
           <div className="flex justify-between mb-[20px]">
             <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
-              Add New Budget
+              Add New Pot
             </h1>
             <Image
               src="/assets/images/icon-close-modal.svg"
@@ -54,61 +42,40 @@ export default function Budget_Form() {
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
-              onClick={() => router.back()}
+              onClick={() => setDisplayForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">
-            Choose a category to set a spending budget. These categories can
-            help you monitor spending.
+            Create a pot to set savings targets. These can help keep you on
+            track as you save for special purchases.
           </p>
           <div>
-            <span className="text-gray-500 font-bold text-[12px]">
-              Budget Category
-            </span>
-            <div
-              onClick={() => setDisplayCategory(!displayCategory)}
-              className="border flex items-center justify-between mt-1 px-[20px] hover:border-gray-900 cursor-pointer border-[#98908B] w-full rounded-lg h-[45px]"
+            <label
+              htmlFor="pot-name"
+              className="text-gray-500 font-bold text-[12px]"
             >
-              <span className="font-normal text-gray-900 text-[14px]">
-                {category}
-              </span>
-              <Image
-                src="/assets/images/icon-caret-down.svg"
-                alt="down"
-                width={32}
-                height={32}
-                className=" w-auto h-auto cursor-pointer "
-                onClick={() => setDisplayCategory(!displayCategory)}
-              />
-            </div>
-            {displayCategory && (
-              <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
-                <ul className="h-[300px] overflow-y-scroll">
-                  {options.map((option) => (
-                    <li
-                      key={option}
-                      onClick={() => {
-                        setDisplayCategory(false);
-                        setCategory(option);
-                      }}
-                      className={`text-gray-500 mx-[20px] py-3 border-b last:border-0 border-gray-100 font-normal text-[14px] ${
-                        category === option ? "text-gray-900" : ""
-                      } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              Pot Name
+            </label>
+            <input
+              type="text"
+              className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
+              placeholder="e.g. Rainy Days"
+            />
+            <p className="text-gray-500 text-[12px] font-normal text-right">
+              30 characters left
+            </p>
           </div>
 
           <div className="my-4">
-            <span className="text-gray-500 font-bold text-[12px]">
-              Maximum Spend
-            </span>
+            <label
+              htmlFor="target"
+              className="text-gray-500 font-bold text-[12px]"
+            >
+              Target
+            </label>
             <input
               type="number"
+              name="target"
               placeholder="e.g. 2000"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
             />
@@ -173,6 +140,7 @@ export default function Budget_Form() {
                         className={` w-auto h-auto cursor-pointer ${
                           theme.name === option.name ? "block" : "hidden"
                         }`}
+                        // onClick={() => setDisplayTheme(!displayTheme)}
                       />
                     </div>
                   ))}
@@ -180,7 +148,7 @@ export default function Budget_Form() {
               </div>
             )}
           </div>
-        </article>
+        </form>
         <button
           type="submit"
           className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"

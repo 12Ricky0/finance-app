@@ -5,6 +5,9 @@ import { use, useState } from "react";
 import data from "../../data.json";
 import Link from "next/link";
 import Delete from "../ui/delete_modal";
+import Pot_Edit_Form from "../forms/pot_edit_form";
+import Pot_Deposit from "../forms/pot_deposit_form";
+import Pot_Withdrawal from "../forms/pot_withdraw_form";
 
 export default function Pot_Container() {
   const formatCurrency = new Intl.NumberFormat("en-US", {
@@ -20,6 +23,9 @@ export default function Pot_Container() {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedPot, setSelectedPot] = useState<string>("");
+  const [displayForm, setDisplayForm] = useState(false);
+  const [displayDeposit, setDisplayDeposit] = useState(false);
+  const [displayWithdrawal, setDisplayWithdrawal] = useState(false);
 
   function toggleDropdown(index: number) {
     setActiveDropdown(activeDropdown === index ? null : index);
@@ -75,7 +81,13 @@ export default function Pot_Container() {
               />
               {activeDropdown === index && (
                 <div className="w-[114px] cursor-pointer absolute right-[20px] top-[50px] flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
-                  <span className="border-b border-gray-100 text-gray-900 pb-3">
+                  <span
+                    onClick={() => {
+                      setDisplayForm(true);
+                      setActiveDropdown(null);
+                    }}
+                    className="border-b border-gray-100 text-gray-900 pb-3"
+                  >
                     Edit Pot
                   </span>
                   <span
@@ -119,11 +131,17 @@ export default function Pot_Container() {
               </div>
             </div>
 
-            <div className="mt-8 w-full flex justify-between gap-4">
-              <button className="bg-[#F8F4F0] rounded-lg py-4 w-full text-[14px] font-bold text-gray-900">
+            <div className="mt-8 w-full cursor-pointer flex justify-between gap-4">
+              <button
+                onClick={() => setDisplayDeposit(true)}
+                className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 w-full text-[14px] font-bold text-gray-900"
+              >
                 + Add Money
               </button>
-              <button className="bg-[#F8F4F0] rounded-lg py-4 text-[14px] w-full font-bold text-gray-900">
+              <button
+                onClick={() => setDisplayWithdrawal(true)}
+                className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 text-[14px] w-full font-bold text-gray-900"
+              >
                 Withdraw
               </button>
             </div>
@@ -132,6 +150,15 @@ export default function Pot_Container() {
       </div>
       {deleteModal && (
         <Delete setDeleteModal={setDeleteModal} header={selectedPot} />
+      )}
+      {displayForm && (
+        <Pot_Edit_Form setDisplayForm={() => setDisplayForm(false)} />
+      )}
+      {displayDeposit && (
+        <Pot_Deposit setDisplayForm={() => setDisplayDeposit(false)} />
+      )}
+      {displayWithdrawal && (
+        <Pot_Withdrawal setDisplayForm={() => setDisplayWithdrawal(false)} />
       )}
     </section>
   );

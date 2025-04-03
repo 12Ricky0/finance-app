@@ -3,6 +3,7 @@ import data from "../../data.json";
 import Link from "next/link";
 import { useState } from "react";
 import Delete from "../ui/delete_modal";
+import Budget_Edit_Form from "../forms/budget_edit_form";
 
 export default function Budget_Plan_Card() {
   const budgetNames = data.budgets.map((budget) => budget.category);
@@ -41,6 +42,7 @@ export default function Budget_Plan_Card() {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<string>("");
+  const [displayForm, setDisplayForm] = useState(false);
 
   function toggleDropdown(index: number) {
     setActiveDropdown(activeDropdown === index ? null : index);
@@ -68,7 +70,7 @@ export default function Budget_Plan_Card() {
               alt="ellipsis"
               width={32}
               height={32}
-              className=" w-auto h-auto cursor-pointer "
+              className=" w-auto hover:scale-125 h-auto cursor-pointer "
               onClick={() => {
                 toggleDropdown(index);
                 setSelectedBudget(budget.category);
@@ -76,7 +78,13 @@ export default function Budget_Plan_Card() {
             />
             {activeDropdown === index && (
               <div className="w-[114px] cursor-pointer absolute top-6 right-0 z-50 flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
-                <span className="border-b hover:text-gray-500 border-gray-100 text-gray-900 pb-3">
+                <span
+                  onClick={() => {
+                    setDisplayForm(!displayForm);
+                    setActiveDropdown(null);
+                  }}
+                  className="border-b hover:text-gray-500 border-gray-100 text-gray-900 pb-3"
+                >
                   Edit Pot
                 </span>
                 <span
@@ -97,7 +105,6 @@ export default function Budget_Plan_Card() {
               <span className="text-gray-500 text-[14px] font-normal">
                 Maximum of {formatCurrency.format(budget.maximum)}
               </span>
-              {/* <span className="text-gray-900 font-bold text-[32px]">$ 159.00 </span> */}
             </div>
             <div className="w-full bg-[#F8F4F0] px-1 flex items-center rounded-lg h-8 relative">
               <div
@@ -146,7 +153,7 @@ export default function Budget_Plan_Card() {
                 href="/finance/transactions"
                 className="inline-flex items-center gap-3"
               >
-                <h2 className="font-normal text-[14px] text-gray-500">
+                <h2 className="font-normal text-[14px] hover:text-gray-900 text-gray-500">
                   See All
                 </h2>
                 <Image
@@ -199,6 +206,9 @@ export default function Budget_Plan_Card() {
       ))}
       {deleteModal && (
         <Delete setDeleteModal={setDeleteModal} header={selectedBudget} />
+      )}
+      {displayForm && (
+        <Budget_Edit_Form setDisplayForm={() => setDisplayForm(false)} />
       )}
     </div>
   );

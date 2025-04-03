@@ -116,7 +116,10 @@ export default function Footer() {
               : "text-gray-300"
           } pt-2 rounded-t-lg px-[22px] md:px-0 w-[104px] hover:bg-beige-100 hover:mb-1 hover:shadow-[0_4px_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
         >
-          <Link href="" className="flex flex-col items-center">
+          <Link
+            href="/finance/recurring"
+            className="flex flex-col items-center"
+          >
             <Image
               src="/assets/images/icon-nav-recurring-bills.svg"
               alt="recurring"

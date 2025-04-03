@@ -19,10 +19,10 @@ export default function Budget_UI() {
           Budgets
         </h1>
         <Link
-          href=""
+          href="/finance/budget/create"
           className="p-4 rounded-lg hover:bg-gray-500 bg-gray-900 text-white font-bold text-[14px]"
         >
-          + Add New Pot
+          + Add New Budget
         </Link>
       </div>
 

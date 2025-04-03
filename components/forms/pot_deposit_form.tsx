@@ -3,7 +3,11 @@ import Image from "next/image";
 import { Overlay } from "../skeletons/overlay";
 import { useState } from "react";
 
-export default function Pot_Deposit() {
+interface DisplayProps {
+  setDisplayForm: (value: boolean) => void;
+}
+
+export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
   const [deposit, setDeposit] = useState<number>();
 
   const percentage = Math.min((159 / 2000) * 100, 100); // Ensure it doesn't exceed 100%
@@ -24,6 +28,7 @@ export default function Pot_Deposit() {
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
+              onClick={() => setDisplayForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">

@@ -2,14 +2,16 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function Budget_Form() {
+interface DisplayProps {
+  setDisplayForm: (value: boolean) => void;
+}
+
+export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
   const [displayCategory, setDisplayCategory] = useState(false);
   const [displayTheme, setDisplayTheme] = useState(false);
   const [category, setCategory] = useState("Entertainment");
   const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
-  const router = useRouter();
   const options = [
     "Entertainment",
     "Bills",
@@ -54,7 +56,7 @@ export default function Budget_Form() {
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
-              onClick={() => router.back()}
+              onClick={() => setDisplayForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">

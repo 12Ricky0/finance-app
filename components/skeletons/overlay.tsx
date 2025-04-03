@@ -6,7 +6,11 @@ export function Overlay({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   function handleClick(e: React.MouseEvent) {
-    if (e.target === e.currentTarget && pathname != "/finance/pots") {
+    if (
+      e.target === e.currentTarget &&
+      pathname != "/finance/pots" &&
+      pathname != "/finance/budget"
+    ) {
       router.back();
     }
   }

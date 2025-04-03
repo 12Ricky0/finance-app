@@ -58,7 +58,7 @@ export default function Budget_Card() {
                   {budget.category}
                 </p>
                 <h1 className="text-gray-900 font-bold text-[14px]">
-                  {budget.maximum}
+                  ${budget.maximum}
                 </h1>
               </article>
             </div>
