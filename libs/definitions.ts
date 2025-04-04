@@ -53,7 +53,15 @@ export interface ChartProps {
 }
 
 export interface BalanceProps {
+  id: string;
   current: number;
   income: number;
   expenses: number;
+}
+
+export interface FinanceProps {
+  balance: BalanceProps;
+  transactions: TransactionProps[];
+  budgets: BudgetProps[];
+  pots: PotProps[];
 }

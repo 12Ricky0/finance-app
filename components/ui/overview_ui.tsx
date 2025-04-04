@@ -4,12 +4,12 @@ import Pots_Card from "../cards/overview_pots";
 import Transaction_Card from "../cards/overview_transaction";
 import Budget_Card from "../cards/overview_budget";
 import Recurring_Card from "../cards/overview_recurring";
-import { useContext } from "react";
+import { use } from "react";
 import { FinanceContext } from "@/context";
-import data from "../../data.json";
+import { BalanceProps, FinanceProps } from "@/libs/definitions";
 
-export function Overview_Ui() {
-  const { isMinimized } = useContext(FinanceContext);
+export function Overview_Ui({ balance }: { balance: BalanceProps }) {
+  const { isMinimized } = use(FinanceContext);
   return (
     <section
       className={`transition-all duration-500 mb-8 ${
@@ -20,7 +20,7 @@ export function Overview_Ui() {
         Overview
       </h1>
 
-      <Balance_Card balance={data.balance} />
+      <Balance_Card balance={balance} />
       <div className="lg:flex gap-6">
         <div className="flex-1/12">
           <Pots_Card />
