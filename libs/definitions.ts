@@ -60,6 +60,8 @@ export interface BalanceProps {
 }
 
 export interface FinanceProps {
+  id: string;
+
   balance: BalanceProps;
   transactions: TransactionProps[];
   budgets: BudgetProps[];

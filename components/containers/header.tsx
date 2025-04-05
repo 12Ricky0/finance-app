@@ -151,7 +151,9 @@ export default function Header() {
         >
           <Link href="/finance/recurring" className="flex gap-4 items-center">
             <Image
-              src="/assets/images/icon-nav-recurring-bills.svg"
+              src={`/assets/images/icon-nav-recurring-bills${
+                pathname == "/finance/recurring" ? "-green" : ""
+              }.svg`}
               alt="recurring"
               width={32}
               height={32}

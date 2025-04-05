@@ -1,16 +1,22 @@
 import Image from "next/image";
-import data from "../../data.json";
 import Link from "next/link";
 import { useState } from "react";
 import Delete from "../ui/delete_modal";
 import Budget_Edit_Form from "../forms/budget_edit_form";
+import { BudgetProps, TransactionProps } from "@/libs/definitions";
 
-export default function Budget_Plan_Card() {
-  const budgetNames = data.budgets.map((budget) => budget.category);
+export default function Budget_Plan_Card({
+  budgetData,
+  transactions,
+}: {
+  budgetData: BudgetProps[];
+  transactions: TransactionProps[];
+}) {
+  const budgetNames = budgetData.map((budget) => budget.category);
 
   const amountSpent = budgetNames.reduce<Record<string, number>>(
     (acc, name) => {
-      acc[name] = data.transactions
+      acc[name] = transactions
         .filter((transaction) => transaction.category === name)
         .filter((cat) => new Date(cat.date).getMonth() > 6)
         .reduce((sum, transaction) => sum + transaction.amount, 0);
@@ -50,7 +56,7 @@ export default function Budget_Plan_Card() {
 
   return (
     <div className="flex flex-col gap-6 ">
-      {data.budgets.map((budget, index) => (
+      {budgetData.map((budget, index) => (
         <section
           key={index}
           className="bg-white rounded-lg mx-4 md:mx-10 lg:ml-0 md:py-8 px-[20px] py-6"
@@ -167,7 +173,7 @@ export default function Budget_Plan_Card() {
             </div>
 
             <section className="flex flex-col gap-3">
-              {data.transactions
+              {transactions
                 .filter(
                   (transaction) => transaction.category === budget.category
                 )

@@ -1,12 +1,15 @@
 "use client";
-import Budget_Summary_Card from "../cards/budget_summary";
 import Total_Bill_Card from "../cards/total_bill";
 import Recurring_Bill_Card from "../cards/recurring_bill";
 import { use } from "react";
 import { FinanceContext } from "@/context";
-import Link from "next/link";
+import { TransactionProps } from "@/libs/definitions";
 
-export default function Recurring_Bill_UI() {
+export default function Recurring_Bill_UI({
+  transactions,
+}: {
+  transactions: TransactionProps[];
+}) {
   const { isMinimized } = use(FinanceContext);
 
   return (
@@ -23,10 +26,10 @@ export default function Recurring_Bill_UI() {
 
       <div className="flex gap-6 lg:flex-row justify-between md:mx-[40px] flex-col">
         <div className="flex-1">
-          <Total_Bill_Card />
+          <Total_Bill_Card transactionData={transactions} />
         </div>
         <div className="flex-1/6">
-          <Recurring_Bill_Card />
+          <Recurring_Bill_Card transactionData={transactions} />
         </div>
       </div>
     </main>

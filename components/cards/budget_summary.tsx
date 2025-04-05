@@ -1,28 +1,35 @@
 import Chart from "../containers/charts";
-import data from "../../data.json";
+// import data from "../../data.json";
+import { BudgetProps, TransactionProps } from "@/libs/definitions";
 
-export default function Budget_Summary_Card() {
-  const budgetNames = data.budgets.map((budget) => budget.category);
-  const maxAmounts = data.budgets.map((budget) => budget.maximum);
-  const colors = data.budgets.map((budget) => budget.theme);
+export default function Budget_Summary_Card({
+  budgetData,
+  transactions,
+}: {
+  budgetData: BudgetProps[];
+  transactions: TransactionProps[];
+}) {
+  const budgetNames = budgetData.map((budget) => budget.category);
+  const maxAmounts = budgetData.map((budget) => budget.maximum);
+  const colors = budgetData.map((budget) => budget.theme);
 
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
 
-  const totalSpent = data.transactions
+  const totalSpent = transactions
     .filter((transaction) => budgetNames.includes(transaction.category))
     .filter((cat) => new Date(cat.date).getMonth() > 6) // Check if category exists in budgetNames
     .reduce((sum, transaction) => sum + transaction.amount, 0); // Sum up the amounts
-  const totalMaxAmount = data.budgets.reduce(
+  const totalMaxAmount = budgetData.reduce(
     (superTotal, budget) => superTotal + budget.maximum,
     0
   );
 
   const amountSpent = budgetNames.reduce<Record<string, number>>(
     (acc, name) => {
-      acc[name] = data.transactions
+      acc[name] = transactions
         .filter((transaction) => transaction.category === name)
         .filter((cat) => new Date(cat.date).getMonth() > 6)
         .reduce((sum, transaction) => sum + transaction.amount, 0);
@@ -47,7 +54,7 @@ export default function Budget_Summary_Card() {
           Spending Summary
         </h1>
         <>
-          {data.budgets.map((budget, index) => (
+          {budgetData.map((budget, index) => (
             <div
               key={index}
               className="flex justify-between mt-6 border-b last:border-b-0 pb-4 border-gray-100"

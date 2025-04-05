@@ -11,6 +11,9 @@ export default function Overview_Loading() {
         isMinimized ? "lg:ml-[80px]" : "lg:ml-[300px]"
       }`}
     >
+      <div className="mx-4 md:mx-[40px] mt-6">
+        <Skeleton variant="text" width="200px" sx={{ fontSize: "3rem" }} />
+      </div>
       <div className="flex flex-col md:flex-row mt-8 gap-3 md:gap-6 mx-4 md:mx-[40px]">
         <Skeleton variant="rounded" width="100%" height="120px" />
         <Skeleton variant="rounded" width="100%" height="120px" />

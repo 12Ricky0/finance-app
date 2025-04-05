@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
-import data from "../../data.json";
 import Link from "next/link";
+import { TransactionProps } from "@/libs/definitions";
 
-export default function Transaction_Card() {
-  const transactions = data.transactions.slice(0, 5);
+export default function Transaction_Card({
+  transactionData,
+}: {
+  transactionData: TransactionProps[];
+}) {
+  const transactions = transactionData.slice(0, 5);
 
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",

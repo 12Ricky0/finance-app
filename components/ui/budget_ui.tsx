@@ -4,8 +4,15 @@ import Budget_Summary_Card from "../cards/budget_summary";
 import { use } from "react";
 import { FinanceContext } from "@/context";
 import Link from "next/link";
+import { BudgetProps, TransactionProps } from "@/libs/definitions";
 
-export default function Budget_UI() {
+export default function Budget_UI({
+  budget,
+  transactions,
+}: {
+  budget: BudgetProps[];
+  transactions: TransactionProps[];
+}) {
   const { isMinimized } = use(FinanceContext);
 
   return (
@@ -28,10 +35,13 @@ export default function Budget_UI() {
 
       <div className="flex gap-6 lg:flex-row justify-between  flex-col">
         <div className="flex-1">
-          <Budget_Summary_Card />
+          <Budget_Summary_Card
+            budgetData={budget}
+            transactions={transactions}
+          />
         </div>
         <div className="flex-1/6">
-          <Budget_Plan_Card />
+          <Budget_Plan_Card budgetData={budget} transactions={transactions} />
         </div>
       </div>
     </main>

@@ -6,9 +6,24 @@ import Budget_Card from "../cards/overview_budget";
 import Recurring_Card from "../cards/overview_recurring";
 import { use } from "react";
 import { FinanceContext } from "@/context";
-import { BalanceProps, FinanceProps } from "@/libs/definitions";
+import {
+  BalanceProps,
+  PotProps,
+  TransactionProps,
+  BudgetProps,
+} from "@/libs/definitions";
 
-export function Overview_Ui({ balance }: { balance: BalanceProps }) {
+export function Overview_Ui({
+  balance,
+  pots,
+  transactions,
+  budgets,
+}: {
+  balance: BalanceProps;
+  pots: PotProps[];
+  transactions: TransactionProps[];
+  budgets: BudgetProps[];
+}) {
   const { isMinimized } = use(FinanceContext);
   return (
     <section
@@ -23,12 +38,12 @@ export function Overview_Ui({ balance }: { balance: BalanceProps }) {
       <Balance_Card balance={balance} />
       <div className="lg:flex gap-6">
         <div className="flex-1/12">
-          <Pots_Card />
-          <Transaction_Card />
+          <Pots_Card potsData={pots} />
+          <Transaction_Card transactionData={transactions} />
         </div>
         <div className="flex-1">
-          <Budget_Card />
-          <Recurring_Card />
+          <Budget_Card transactions={transactions} budgetData={budgets} />
+          <Recurring_Card transactions={transactions} />
         </div>
       </div>
     </section>

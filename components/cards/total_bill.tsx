@@ -1,7 +1,11 @@
 import Image from "next/image";
-import data from "../../data.json";
+import { TransactionProps } from "@/libs/definitions";
 
-export default function Total_Bill_Card() {
+export default function Total_Bill_Card({
+  transactionData,
+}: {
+  transactionData: TransactionProps[];
+}) {
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -9,7 +13,7 @@ export default function Total_Bill_Card() {
 
   const currentDefaultDate = new Date("August 19, 2024");
 
-  const recurringBills = data.transactions.filter(
+  const recurringBills = transactionData.filter(
     (transaction) => transaction.recurring === true
   );
 

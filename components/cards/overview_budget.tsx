@@ -1,18 +1,24 @@
 import Image from "next/image";
 import Chart from "../containers/charts";
-import data from "../../data.json";
 import Link from "next/link";
+import { BudgetProps, TransactionProps } from "@/libs/definitions";
 
-export default function Budget_Card() {
-  const budgets = data.budgets.slice(0, 4);
-  const budgetNames = data.budgets.map((budget) => budget.category);
-  const maxAmounts = data.budgets.map((budget) => budget.maximum);
-  const colors = data.budgets.map((budget) => budget.theme);
-  const totalSpent = data.transactions
+export default function Budget_Card({
+  budgetData,
+  transactions,
+}: {
+  budgetData: BudgetProps[];
+  transactions: TransactionProps[];
+}) {
+  const budgets = budgetData.slice(0, 4);
+  const budgetNames = budgetData.map((budget) => budget.category);
+  const maxAmounts = budgetData.map((budget) => budget.maximum);
+  const colors = budgetData.map((budget) => budget.theme);
+  const totalSpent = transactions
     .filter((transaction) => budgetNames.includes(transaction.category))
     .filter((cat) => new Date(cat.date).getMonth() > 6) // Check if category exists in budgetNames
     .reduce((sum, transaction) => sum + transaction.amount, 0); // Sum up the amounts
-  const totalMaxAmount = data.budgets.reduce(
+  const totalMaxAmount = budgetData.reduce(
     (superTotal, budget) => superTotal + budget.maximum,
     0
   );

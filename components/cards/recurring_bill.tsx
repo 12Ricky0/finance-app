@@ -2,12 +2,15 @@
 import Image from "next/image";
 import { useState, useEffect, use } from "react";
 import { Sort_Dropdown } from "../ui/dropdown";
-import data from "../../data.json";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { FinanceContext } from "@/context";
 import { TransactionProps } from "@/libs/definitions";
 
-export default function Recurring_Bill_Card() {
+export default function Recurring_Bill_Card({
+  transactionData,
+}: {
+  transactionData: TransactionProps[];
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -34,7 +37,7 @@ export default function Recurring_Bill_Card() {
     }
   };
 
-  const recurringBills = data.transactions.filter(
+  const recurringBills = transactionData.filter(
     (transaction) => transaction.recurring === true
   );
 
@@ -47,9 +50,6 @@ export default function Recurring_Bill_Card() {
       uniqueRecurringBills.push(bill);
     }
   }
-  // .filter(
-  //   (cat) => new Date(cat.date).getMonth() < currentDefaultDate.getMonth()
-  // );
   const [transactions, setTransactions] = useState(uniqueRecurringBills);
 
   function handleSearch(term: string) {
@@ -64,7 +64,7 @@ export default function Recurring_Bill_Card() {
   }
 
   useEffect(() => {
-    const recurring = data.transactions.filter(
+    const recurring = transactionData.filter(
       (transaction) => transaction.recurring === true
     );
     const uniqueRecurringBills: TransactionProps[] = [];
@@ -104,7 +104,7 @@ export default function Recurring_Bill_Card() {
     }
 
     setTransactions(sortedTransactions);
-  }, [searchInput, sort]);
+  }, [searchInput, sort, transactionData]);
 
   return (
     <section className="bg-white mx-4 md:mx-0 md:py-8 pt-6 pb-8 px-[20px] relative rounded-lg">
@@ -257,8 +257,6 @@ export default function Recurring_Bill_Card() {
           ))}
         </tbody>
       </table>
-      {/* <Pagination /> */}
-      {/* desktop viewport */}
     </section>
   );
 }

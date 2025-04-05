@@ -1,12 +1,11 @@
 import Image from "next/image";
-import data from "../../data.json";
 import Link from "next/link";
+import { PotProps } from "@/libs/definitions";
 
-export default function Pots_Card() {
-  const allPots = data.pots;
-  const pots = allPots.slice(0, 4);
+export default function Pots_Card({ potsData }: { potsData: PotProps[] }) {
+  const pots = potsData.slice(0, 4);
 
-  const totalPot = allPots.reduce((sum, pot) => sum + pot.total, 0);
+  const totalPot = potsData.reduce((sum, pot) => sum + pot.total, 0);
 
   return (
     <section className="bg-white py-6 px-[20px] rounded-lg md:gap-6 mx-4 md:mx-[40px] md:p-[32px] lg:mr-0 mt-8 md:mt-6 mb-4 md:mb-6">

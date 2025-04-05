@@ -2,14 +2,14 @@
 import Image from "next/image";
 import { FinanceContext } from "@/context";
 import { use, useState } from "react";
-import data from "../../data.json";
 import Link from "next/link";
 import Delete from "../ui/delete_modal";
 import Pot_Edit_Form from "../forms/pot_edit_form";
 import Pot_Deposit from "../forms/pot_deposit_form";
 import Pot_Withdrawal from "../forms/pot_withdraw_form";
+import { PotProps } from "@/libs/definitions";
 
-export default function Pot_Container() {
+export default function Pot_Container({ pots }: { pots: PotProps[] }) {
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -53,7 +53,7 @@ export default function Pot_Container() {
           isMinimized ? "lg:ml-[80px]" : "lg:ml-[300px]"
         } gap-6 grid-cols-1 lg:grid-cols-2 transition-all duration-500`}
       >
-        {data.pots.map((pot, index) => (
+        {pots.map((pot, index) => (
           <section
             key={index}
             className={`bg-white  px-[20px] pt-6 pb-[38px] relative rounded-xl`}

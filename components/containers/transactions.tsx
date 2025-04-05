@@ -3,14 +3,19 @@ import Image from "next/image";
 import Pagination from "./pagination";
 import { useState, use, useEffect } from "react";
 import { FinanceContext } from "@/context";
-import data from "../../data.json";
 import { Category_Dropdown, Sort_Dropdown } from "../ui/dropdown";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { TransactionProps } from "@/libs/definitions";
 
-export default function Transaction() {
+export default function Transaction({
+  transactionData,
+}: {
+  transactionData: TransactionProps[];
+}) {
   const { isMinimized, category, sort } = use(FinanceContext);
   const [activePage, setActivePage] = useState(1);
-  const [transactions, setTransactions] = useState(data.transactions);
+  const [transactions, setTransactions] =
+    useState<TransactionProps[]>(transactionData);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -28,7 +33,7 @@ export default function Transaction() {
   }
 
   useEffect(() => {
-    let filteredTransactions = data.transactions;
+    let filteredTransactions = transactionData;
     if (searchInput) {
       filteredTransactions = filteredTransactions.filter((transaction) =>
         transaction.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -63,7 +68,7 @@ export default function Transaction() {
 
     setTransactions(sortedTransactions);
     setActivePage(1);
-  }, [category, searchInput, sort]);
+  }, [category, searchInput, sort, transactionData]);
 
   const totalPages = Math.ceil(transactions.length / 10);
 
@@ -83,7 +88,7 @@ export default function Transaction() {
   }
 
   const categories = new Set<string>(["All Transactions"]);
-  data?.transactions.forEach((transaction) =>
+  transactionData.forEach((transaction) =>
     categories.add(transaction.category)
   );
   const categoriesArray = Array.from(categories);
@@ -135,7 +140,7 @@ export default function Transaction() {
             >
               <div className="inline-flex items-center gap-3">
                 <Image
-                  src={transaction.avatar.slice(1)}
+                  src={transaction.avatar?.slice(1)}
                   alt="right"
                   width={32}
                   height={32}
@@ -186,7 +191,7 @@ export default function Transaction() {
                 >
                   <td className="flex items-center gap-4 text-left pl-4 py-3">
                     <Image
-                      src={transaction.avatar.slice(1)}
+                      src={transaction.avatar?.slice(1)}
                       alt="right"
                       width={40}
                       height={40}
