@@ -1,6 +1,5 @@
 import { Overview_Ui } from "@/components/ui/overview_ui";
 import { fetchAllData } from "@/libs/data";
-import Overview_Loading from "@/components/skeletons/overview:skeleton";
 
 export default async function Overview() {
   const data = await fetchAllData();
@@ -13,7 +12,6 @@ export default async function Overview() {
         transactions={res[0].transactions}
         budgets={res[0].budgets}
       />
-      {/* <Overview_Loading /> */}
     </>
   );
 }

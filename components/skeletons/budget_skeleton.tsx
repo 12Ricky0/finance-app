@@ -3,7 +3,7 @@ import { Skeleton } from "@mui/material";
 import { use } from "react";
 import { FinanceContext } from "@/context";
 
-export default function Pot_Loading() {
+export default function Budget_Loading() {
   const { isMinimized } = use(FinanceContext);
 
   return (
@@ -19,13 +19,19 @@ export default function Pot_Loading() {
         <Skeleton variant="text" width="200px" sx={{ fontSize: "5rem" }} />
       </div>
 
-      <div
-        className={`grid gap-6 mx-6 md:mx-[40px] grid-cols-1 lg:grid-cols-2 transition-all duration-500`}
-      >
-        <Skeleton variant="rounded" width="100%" height="303px" />
-        <Skeleton variant="rounded" width="100%" height="303px" />
-        <Skeleton variant="rounded" width="100%" height="303px" />
-        <Skeleton variant="rounded" width="100%" height="303px" />
+      <div className="flex gap-6 lg:flex-row justify-between mx-6 md:mx-[40px] flex-col">
+        <div className="flex-1">
+          <Skeleton variant="rounded" width="100%" height="599px" />
+        </div>
+        <div className="flex-1/6">
+          <Skeleton variant="rounded" width="100%" height="510px" />
+          <Skeleton
+            variant="rounded"
+            width="100%"
+            height="510px"
+            sx={{ marginTop: "20px" }}
+          />
+        </div>
       </div>
     </section>
   );
