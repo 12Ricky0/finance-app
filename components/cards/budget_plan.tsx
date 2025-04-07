@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, use } from "react";
 import Delete from "../ui/delete_modal";
 import Budget_Edit_Form from "../forms/budget_edit_form";
 import { BudgetProps, TransactionProps } from "@/libs/definitions";
+import { FinanceContext } from "@/context";
 
 export default function Budget_Plan_Card({
   budgetData,
@@ -13,7 +14,7 @@ export default function Budget_Plan_Card({
   transactions: TransactionProps[];
 }) {
   const budgetNames = budgetData.map((budget) => budget.category);
-
+  const { setCategory } = use(FinanceContext);
   const amountSpent = budgetNames.reduce<Record<string, number>>(
     (acc, name) => {
       acc[name] = transactions
@@ -83,7 +84,7 @@ export default function Budget_Plan_Card({
               }}
             />
             {activeDropdown === index && (
-              <div className="w-[114px] cursor-pointer absolute top-6 right-0 z-50 flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
+              <div className=" cursor-pointer absolute top-6 right-0 z-50 flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
                 <span
                   onClick={() => {
                     setDisplayForm(!displayForm);
@@ -91,7 +92,7 @@ export default function Budget_Plan_Card({
                   }}
                   className="border-b hover:text-gray-500 border-gray-100 text-gray-900 pb-3"
                 >
-                  Edit Pot
+                  Edit Budget
                 </span>
                 <span
                   onClick={() => {
@@ -100,7 +101,7 @@ export default function Budget_Plan_Card({
                   }}
                   className="pt-3 hover:text-red-500 text-[#C94736]"
                 >
-                  Delete Pot
+                  Delete Budget
                 </span>
               </div>
             )}
@@ -125,14 +126,19 @@ export default function Budget_Plan_Card({
               ></div>
             </div>
             <div className="flex justify-between mt-[13px]">
-              <div className="shadow-[-4px_0_0_0_rgb(39,124,120,1)] flex flex-col gap-1 mx-1 pl-4">
-                <span className="font-normal text-[12px] text-gray-500">
-                  Spent
-                </span>
-
-                <span className="font-bold text-[14px] text-gray-900">
-                  ${Math.abs(amountSpent[budget.category])}
-                </span>
+              <div className=" flex gap-4">
+                <div
+                  style={{ backgroundColor: budget.theme }}
+                  className="w-1 rounded-t-full rounded-b-full"
+                />
+                <div className=" flex flex-col gap-1 mx-1">
+                  <span className="font-normal text-[12px] text-gray-500">
+                    Spent
+                  </span>
+                  <span className="font-bold text-[14px] text-gray-900">
+                    ${Math.abs(amountSpent[budget.category])}
+                  </span>
+                </div>
               </div>
               <div className=" flex flex-col gap-1 ">
                 <span className="font-normal text-[12px] text-gray-500">
@@ -159,7 +165,10 @@ export default function Budget_Plan_Card({
                 href="/finance/transactions"
                 className="inline-flex items-center gap-3"
               >
-                <h2 className="font-normal text-[14px] hover:text-gray-900 text-gray-500">
+                <h2
+                  onClick={() => setCategory(budget.category)}
+                  className="font-normal text-[14px] hover:text-gray-900 text-gray-500"
+                >
                   See All
                 </h2>
                 <Image
@@ -177,7 +186,7 @@ export default function Budget_Plan_Card({
                 .filter(
                   (transaction) => transaction.category === budget.category
                 )
-                .slice(0, 3)
+                .slice(-3)
                 .map((info, index) => (
                   <div
                     key={index}

@@ -4,24 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Budget_Form() {
+export default function Budget_Form({
+  allCategories,
+  budgetCategories,
+  budgetTheme,
+}: {
+  allCategories: string[];
+  budgetCategories: string[];
+  budgetTheme: string[];
+}) {
   const [displayCategory, setDisplayCategory] = useState(false);
   const [displayTheme, setDisplayTheme] = useState(false);
   const [category, setCategory] = useState("Entertainment");
-  const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
+  const [theme, setTheme] = useState({ name: "Magenta", hex: "#934F6F" });
   const router = useRouter();
-  const options = [
-    "Entertainment",
-    "Bills",
-    "Groceries",
-    "Dinning Out",
-    "Transportation",
-    "Personal Care",
-    "Education",
-    "Lifestyle",
-    "Shopping",
-    "General",
-  ];
 
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
@@ -34,12 +30,13 @@ export default function Budget_Form() {
     { name: "Brown", hex: "#93674F" },
     { name: "Magenta", hex: "#934F6F" },
     { name: "Blue", hex: "#3F82B2" },
-    { name: "Navy Grey", hex: "#97A0AC" }, // Approximate color
+    { name: "Navy Grey", hex: "#97A0AC" },
     { name: "Army Green", hex: "#7F9161" },
     { name: "Pink", hex: "#826CB0" },
     { name: "Gold", hex: "#CAB361" },
     { name: "Orange", hex: "#BE6C49" },
   ];
+
   return (
     <Overlay>
       <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
@@ -84,16 +81,21 @@ export default function Budget_Form() {
             {displayCategory && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
                 <ul className="h-[300px] overflow-y-scroll">
-                  {options.map((option) => (
+                  {allCategories.map((option) => (
                     <li
                       key={option}
                       onClick={() => {
-                        setDisplayCategory(false);
-                        setCategory(option);
+                        if (budgetCategories.includes(option)) return;
+                        else {
+                          setDisplayCategory(false);
+                          setCategory(option);
+                        }
                       }}
-                      className={`text-gray-500 mx-[20px] py-3 border-b last:border-0 border-gray-100 font-normal text-[14px] ${
-                        category === option ? "text-gray-900" : ""
-                      } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
+                      className={` mx-[20px] py-3 border-b last:border-0 border-gray-100 font-normal text-[14px] ${
+                        budgetCategories.includes(option)
+                          ? " text-gray-500"
+                          : "text-gray-900 hover:text-[#277C78]"
+                      } cursor-pointer  transition duration-300 ease-in-out`}
                     >
                       {option}
                     </li>
@@ -145,25 +147,42 @@ export default function Budget_Form() {
                   {colorOptions.map((option) => (
                     <div
                       key={option.name}
-                      className="flex justify-between mx-[20px] border-b last:border-0 border-gray-100"
+                      className="flex justify-between items-center mx-[20px] border-b last:border-0 border-gray-100"
                     >
-                      <div className="flex  gap-3 items-center ">
+                      <div className="flex gap-3 items-center ">
                         <div
-                          className={`size-4 rounded-full`}
-                          style={{ backgroundColor: option.hex }}
+                          className={`size-4 ${budgetTheme.includes(
+                            option.hex ? "opacity-20" : "opacity-100"
+                          )} rounded-full `}
+                          style={{
+                            backgroundColor: option.hex,
+                            opacity: budgetTheme.includes(option.hex)
+                              ? 0.25
+                              : 1,
+                          }}
                         />
                         <li
                           onClick={() => {
-                            setDisplayTheme(false);
-                            setTheme({ name: option.name, hex: option.hex });
+                            if (budgetTheme.includes(option.hex)) return;
+                            else {
+                              setDisplayTheme(false);
+                              setTheme({ name: option.name, hex: option.hex });
+                            }
                           }}
-                          className={`text-gray-500 py-3  font-normal text-[14px] ${
-                            theme.name === option.name ? "text-gray-900" : ""
-                          } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
+                          className={`py-3 font-normal text-[14px] ${
+                            budgetTheme.includes(option.hex)
+                              ? " text-gray-500"
+                              : "text-gray-900 hover:text-[#277C78]"
+                          } cursor-pointer transition duration-300 ease-in-out`}
                         >
                           {option.name}
                         </li>
                       </div>
+                      {budgetTheme.includes(option.hex) && (
+                        <li className="text-[12px] text-gray-500">
+                          Already used
+                        </li>
+                      )}
 
                       <Image
                         src="/assets/images/icon-selected.svg"

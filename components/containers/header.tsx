@@ -6,7 +6,7 @@ import { FinanceContext } from "@/context";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
-  const { setIsMinimized, isMinimized } = use(FinanceContext);
+  const { setIsMinimized, isMinimized, setCategory } = use(FinanceContext);
   const pathname = usePathname();
   return (
     <header
@@ -71,6 +71,7 @@ export default function Header() {
               className="h-auto w-auto ml-8"
             />
             <span
+              onClick={() => setCategory("All Transactions")}
               className={` transition-all duration-500 font-bold text-[16px] ${
                 isMinimized
                   ? "opacity-0 scale-0 w-0"
