@@ -27,6 +27,7 @@ export default async function Create_Budget() {
       allCategories={categoriesArray}
       budgetCategories={budgetCategoriesArray}
       budgetTheme={themesArray}
+      id={res[0]._id}
     />
   );
 }

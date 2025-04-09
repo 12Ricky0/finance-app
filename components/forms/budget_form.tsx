@@ -1,24 +1,21 @@
 "use client";
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
+import { createBudget } from "@/libs/actions";
 
 export default function Budget_Form({
   allCategories,
   budgetCategories,
   budgetTheme,
+  id,
 }: {
   allCategories: string[];
   budgetCategories: string[];
   budgetTheme: string[];
+  id: string;
 }) {
-  const [displayCategory, setDisplayCategory] = useState(false);
-  const [displayTheme, setDisplayTheme] = useState(false);
-  const [category, setCategory] = useState("Entertainment");
-  const [theme, setTheme] = useState({ name: "Magenta", hex: "#934F6F" });
-  const router = useRouter();
-
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
     { name: "Yellow", hex: "#F2CDAC" },
@@ -37,9 +34,36 @@ export default function Budget_Form({
     { name: "Orange", hex: "#BE6C49" },
   ];
 
+  const randomCategory = allCategories.filter(
+    (cat) => !budgetCategories.includes(cat)
+  );
+
+  const randomTheme = colorOptions.filter(
+    (color) => !budgetTheme.includes(color.hex)
+  );
+  const [displayCategory, setDisplayCategory] = useState(false);
+  const [displayTheme, setDisplayTheme] = useState(false);
+  const [category, setCategory] = useState(() =>
+    randomCategory.length > 0 ? randomCategory[0] : ""
+  );
+  const [theme, setTheme] = useState(() =>
+    randomTheme.length > 0 ? randomTheme[0] : { name: "", hex: "" }
+  );
+  const router = useRouter();
+
+  const payload = createBudget.bind(null, id);
+  const [state, formAction, isPending] = useActionState(payload, null);
+
+  // useEffect(() => {
+  //   if (!state?.errors) router.back()
+  // });
+
   return (
     <Overlay>
-      <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
+      <form
+        action={formAction}
+        className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4"
+      >
         <article className="relative">
           <div className="flex justify-between mb-[20px]">
             <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
@@ -77,6 +101,7 @@ export default function Budget_Form({
                 className=" w-auto h-auto cursor-pointer "
                 onClick={() => setDisplayCategory(!displayCategory)}
               />
+              <input type="hidden" name="budgetCategory" value={category} />
             </div>
             {displayCategory && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
@@ -110,12 +135,24 @@ export default function Budget_Form({
               Maximum Spend
             </span>
             <input
+              name="max_spend"
               type="number"
               placeholder="e.g. 2000"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
             />
-          </div>
 
+            {state && (
+              <div
+                className={`flex mb-4 mt-[6px] items-center gap-2 text-[12px] ${
+                  state
+                    ? "text-red-500"
+                    : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                } `}
+              >
+                <p>{state.errors.maximum}</p>
+              </div>
+            )}
+          </div>
           <div>
             <span className="text-gray-500 font-bold text-[12px]">Theme</span>
             <div
@@ -140,6 +177,7 @@ export default function Budget_Form({
                 className=" w-auto h-auto cursor-pointer "
                 onClick={() => setDisplayTheme(!displayTheme)}
               />
+              <input type="hidden" name="theme" value={theme.hex} />
             </div>
             {displayTheme && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
@@ -201,12 +239,13 @@ export default function Budget_Form({
           </div>
         </article>
         <button
+          disabled={randomCategory.length == 0}
           type="submit"
-          className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
+          className="w-full py-4 disabled:bg-gray-600 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
         >
-          Add Budget
+          {isPending ? "Saving..." : "Add Budget"}
         </button>
-      </section>
+      </form>
     </Overlay>
   );
 }

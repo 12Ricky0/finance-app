@@ -67,3 +67,14 @@ export interface FinanceProps {
   budgets: BudgetProps[];
   pots: PotProps[];
 }
+
+// SCHEMEA
+import { z } from "zod";
+
+export const budgetSchema = z.object({
+  category: z.string(),
+  maximum: z
+    .number({ required_error: "Amount is required" })
+    .positive({ message: "Max spend must be greater than 0" }),
+  theme: z.string(),
+});

@@ -55,7 +55,7 @@ export default function Chart({
 
       <div className="absolute bottom-[35%]">
         <p className="font-bold text-[32px] text-gray-900">
-          ${Math.abs(totalAmount)}
+          ${Math.floor(Math.abs(totalAmount))}
         </p>
         <p className="font-normal text-[12px] text-gray-500">
           of ${budgetsMaxAmount} limit
