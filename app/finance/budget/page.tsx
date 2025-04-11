@@ -6,6 +6,10 @@ export default async function Budget() {
   const res = await data?.json();
 
   return (
-    <Budget_UI budget={res[0].budgets} transactions={res[0].transactions} />
+    <Budget_UI
+      id={res[0]._id}
+      budget={res[0].budgets}
+      transactions={res[0].transactions}
+    />
   );
 }

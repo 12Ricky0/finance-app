@@ -9,7 +9,9 @@ import { FinanceContext } from "@/context";
 export default function Budget_Plan_Card({
   budgetData,
   transactions,
+  id,
 }: {
+  id: string;
   budgetData: BudgetProps[];
   transactions: TransactionProps[];
 }) {
@@ -25,7 +27,6 @@ export default function Budget_Plan_Card({
     },
     {}
   );
-
   function percentage(total: number, target: number) {
     const percentage = Math.min((total / target) * 100, 100);
     return percentage;
@@ -50,10 +51,29 @@ export default function Budget_Plan_Card({
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<string>("");
   const [displayForm, setDisplayForm] = useState(false);
+  const [defaultCategory, setDefaultCategory] = useState<string>("");
+  const [defaultTheme, setDefaultTheme] = useState<string>("");
+  const [maxAmount, setMaxAmount] = useState<number>(0);
 
   function toggleDropdown(index: number) {
     setActiveDropdown(activeDropdown === index ? null : index);
   }
+
+  const categories = new Set<string>();
+  transactions.forEach((transaction: TransactionProps) =>
+    categories.add(transaction.category)
+  );
+  const categoriesArray = Array.from(categories);
+
+  const budgetCategories = new Set<string>();
+  budgetData.forEach((budget: BudgetProps) =>
+    budgetCategories.add(budget.category)
+  );
+  const budgetCategoriesArray = Array.from(budgetCategories);
+
+  const themes = new Set<string>();
+  budgetData.forEach((budget: BudgetProps) => themes.add(budget.theme));
+  const themesArray = Array.from(themes);
 
   return (
     <div className="flex flex-col gap-6 ">
@@ -89,6 +109,9 @@ export default function Budget_Plan_Card({
                   onClick={() => {
                     setDisplayForm(!displayForm);
                     setActiveDropdown(null);
+                    setDefaultCategory(budget.category);
+                    setDefaultTheme(budget.theme);
+                    setMaxAmount(budget.maximum);
                   }}
                   className="border-b hover:text-gray-500 border-gray-100 text-gray-900 pb-3"
                 >
@@ -223,7 +246,16 @@ export default function Budget_Plan_Card({
         <Delete setDeleteModal={setDeleteModal} header={selectedBudget} />
       )}
       {displayForm && (
-        <Budget_Edit_Form setDisplayForm={() => setDisplayForm(false)} />
+        <Budget_Edit_Form
+          id={id}
+          budgetTheme={themesArray}
+          defaultCategory={defaultCategory}
+          defaultTheme={defaultTheme}
+          budgetCategories={budgetCategoriesArray}
+          allCategories={categoriesArray}
+          maxAmount={maxAmount}
+          setDisplayForm={() => setDisplayForm(false)}
+        />
       )}
     </div>
   );

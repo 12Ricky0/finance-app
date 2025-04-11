@@ -9,9 +9,11 @@ import { BudgetProps, TransactionProps } from "@/libs/definitions";
 export default function Budget_UI({
   budget,
   transactions,
+  id,
 }: {
   budget: BudgetProps[];
   transactions: TransactionProps[];
+  id: string;
 }) {
   const { isMinimized } = use(FinanceContext);
 
@@ -41,7 +43,11 @@ export default function Budget_UI({
           />
         </div>
         <div className="flex-1/6">
-          <Budget_Plan_Card budgetData={budget} transactions={transactions} />
+          <Budget_Plan_Card
+            id={id}
+            budgetData={budget}
+            transactions={transactions}
+          />
         </div>
       </div>
     </main>

@@ -1,30 +1,30 @@
 "use client";
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useActionState } from "react";
+import { editBudget } from "@/libs/actions";
 
-interface DisplayProps {
+interface budgetEditProps {
   setDisplayForm: (value: boolean) => void;
+  allCategories: string[];
+  budgetCategories: string[];
+  defaultCategory: string;
+  defaultTheme: string;
+  maxAmount: number;
+  budgetTheme: string[];
+  id: string;
 }
 
-export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
-  const [displayCategory, setDisplayCategory] = useState(false);
-  const [displayTheme, setDisplayTheme] = useState(false);
-  const [category, setCategory] = useState("Entertainment");
-  const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
-  const options = [
-    "Entertainment",
-    "Bills",
-    "Groceries",
-    "Dinning Out",
-    "Transportation",
-    "Personal Care",
-    "Education",
-    "Lifestyle",
-    "Shopping",
-    "General",
-  ];
-
+export default function Budget_Edit_Form({
+  setDisplayForm,
+  allCategories,
+  budgetCategories,
+  defaultCategory,
+  defaultTheme,
+  maxAmount,
+  budgetTheme,
+  id,
+}: budgetEditProps) {
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
     { name: "Yellow", hex: "#F2CDAC" },
@@ -42,9 +42,23 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
     { name: "Gold", hex: "#CAB361" },
     { name: "Orange", hex: "#BE6C49" },
   ];
+
+  const [displayCategory, setDisplayCategory] = useState(false);
+  const [displayTheme, setDisplayTheme] = useState(false);
+  const [category, setCategory] = useState(defaultCategory);
+  const [theme, setTheme] = useState(
+    colorOptions.find((col) => col.hex == defaultTheme)
+  );
+
+  const payload = editBudget.bind(null, id);
+  const [state, formAction, isPending] = useActionState(payload, null);
+
   return (
     <Overlay>
-      <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
+      <form
+        action={formAction}
+        className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4"
+      >
         <article className="relative">
           <div className="flex justify-between mb-[20px]">
             <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
@@ -82,20 +96,26 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
                 className=" w-auto h-auto cursor-pointer "
                 onClick={() => setDisplayCategory(!displayCategory)}
               />
+              <input type="hidden" name="budgetCategory" value={category} />
             </div>
             {displayCategory && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
                 <ul className="h-[300px] overflow-y-scroll">
-                  {options.map((option) => (
+                  {allCategories.map((option) => (
                     <li
                       key={option}
                       onClick={() => {
-                        setDisplayCategory(false);
-                        setCategory(option);
+                        if (budgetCategories.includes(option)) return;
+                        else {
+                          setDisplayCategory(false);
+                          setCategory(option);
+                        }
                       }}
-                      className={`text-gray-500 mx-[20px] py-3 border-b last:border-0 border-gray-100 font-normal text-[14px] ${
-                        category === option ? "text-gray-900" : ""
-                      } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
+                      className={` mx-[20px] py-3 border-b last:border-0 border-gray-100 font-normal text-[14px] ${
+                        budgetCategories.includes(option)
+                          ? " text-gray-500"
+                          : "text-gray-900 hover:text-[#277C78]"
+                      } cursor-pointer  transition duration-300 ease-in-out`}
                     >
                       {option}
                     </li>
@@ -110,10 +130,23 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
               Maximum Spend
             </span>
             <input
+              defaultValue={maxAmount}
+              name="max_spend"
               type="number"
               placeholder="e.g. 2000"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
             />
+            {state && (
+              <div
+                className={`flex mb-4 mt-[6px] items-center gap-2 text-[12px] ${
+                  state
+                    ? "text-red-500"
+                    : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                } `}
+              >
+                <p>{state.errors.maximum}</p>
+              </div>
+            )}
           </div>
 
           <div>
@@ -125,11 +158,11 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
               <div className="flex items-center gap-3">
                 <div
                   className={`size-4 rounded-full`}
-                  style={{ backgroundColor: theme.hex }}
+                  style={{ backgroundColor: theme?.hex }}
                 />
 
                 <span className="font-normal text-gray-900 text-[14px]">
-                  {theme.name}
+                  {theme?.name}
                 </span>
               </div>
               <Image
@@ -140,6 +173,7 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
                 className=" w-auto h-auto cursor-pointer "
                 onClick={() => setDisplayTheme(!displayTheme)}
               />
+              <input type="hidden" name="theme" value={theme?.hex} />
             </div>
             {displayTheme && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
@@ -147,25 +181,42 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
                   {colorOptions.map((option) => (
                     <div
                       key={option.name}
-                      className="flex justify-between mx-[20px] border-b last:border-0 border-gray-100"
+                      className="flex justify-between items-center mx-[20px] border-b last:border-0 border-gray-100"
                     >
                       <div className="flex  gap-3 items-center ">
                         <div
-                          className={`size-4 rounded-full`}
-                          style={{ backgroundColor: option.hex }}
+                          className={`size-4 ${budgetTheme.includes(
+                            option.hex ? "opacity-20" : "opacity-100"
+                          )} rounded-full `}
+                          style={{
+                            backgroundColor: option.hex,
+                            opacity: budgetTheme.includes(option.hex)
+                              ? 0.25
+                              : 1,
+                          }}
                         />
                         <li
                           onClick={() => {
-                            setDisplayTheme(false);
-                            setTheme({ name: option.name, hex: option.hex });
+                            if (budgetTheme.includes(option.hex)) return;
+                            else {
+                              setDisplayTheme(false);
+                              setTheme({ name: option.name, hex: option.hex });
+                            }
                           }}
-                          className={`text-gray-500 py-3  font-normal text-[14px] ${
-                            theme.name === option.name ? "text-gray-900" : ""
-                          } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
+                          className={`py-3 font-normal text-[14px] ${
+                            budgetTheme.includes(option.hex)
+                              ? " text-gray-500"
+                              : "text-gray-900 hover:text-[#277C78]"
+                          } cursor-pointer transition duration-300 ease-in-out`}
                         >
                           {option.name}
                         </li>
                       </div>
+                      {budgetTheme.includes(option.hex) && (
+                        <li className="text-[12px] text-gray-500">
+                          Already used
+                        </li>
+                      )}
 
                       <Image
                         src="/assets/images/icon-selected.svg"
@@ -173,7 +224,7 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
                         width={32}
                         height={32}
                         className={` w-auto h-auto cursor-pointer ${
-                          theme.name === option.name ? "block" : "hidden"
+                          theme?.name === option.name ? "block" : "hidden"
                         }`}
                       />
                     </div>
@@ -187,9 +238,9 @@ export default function Budget_Edit_Form({ setDisplayForm }: DisplayProps) {
           type="submit"
           className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
         >
-          Add Budget
+          {isPending ? "Saving..." : "Save Changes"}
         </button>
-      </section>
+      </form>
     </Overlay>
   );
 }
