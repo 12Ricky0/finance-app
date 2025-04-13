@@ -44,6 +44,12 @@ export interface BudgetProps {
   theme: string;
 }
 
+export interface DeleteProps {
+  header: string;
+  id: string;
+  setDeleteModal: (value: boolean) => void;
+}
+
 export interface ChartProps {
   budgetNames: string[];
   budgetMaxAmounts: number[];
@@ -77,4 +83,10 @@ export const budgetSchema = z.object({
     .number({ required_error: "Amount is required" })
     .positive({ message: "Max spend must be greater than 0" }),
   theme: z.string(),
+});
+
+export const potDepositSchema = z.object({
+  amount: z
+    .number({ required_error: "Amount is required" })
+    .positive({ message: "Amount spend must be greater than 0" }),
 });

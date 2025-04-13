@@ -7,7 +7,7 @@ export default async function Pots() {
 
   return (
     <main className="mx-4 md:mx-[40px]">
-      <Pot_Container pots={res[0].pots} />
+      <Pot_Container id={res[0]._id} pots={res[0].pots} />
     </main>
   );
 }

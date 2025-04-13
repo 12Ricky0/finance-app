@@ -243,7 +243,11 @@ export default function Budget_Plan_Card({
         </section>
       ))}
       {deleteModal && (
-        <Delete setDeleteModal={setDeleteModal} header={selectedBudget} />
+        <Delete
+          setDeleteModal={setDeleteModal}
+          header={selectedBudget}
+          id={id}
+        />
       )}
       {displayForm && (
         <Budget_Edit_Form

@@ -1,17 +1,31 @@
 "use client";
 import Image from "next/image";
 import { Overlay } from "../skeletons/overlay";
-import { useState } from "react";
+import { useState, useActionState } from "react";
+import { potDeposit } from "@/libs/actions";
 
 interface DisplayProps {
+  id: string;
+  heading: string;
+  target: number;
+  saved: number;
   setDisplayForm: (value: boolean) => void;
 }
 
-export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
+export default function Pot_Deposit({
+  id,
+  heading,
+  target,
+  saved,
+  setDisplayForm,
+}: DisplayProps) {
   const [deposit, setDeposit] = useState<number>();
 
-  const percentage = Math.min((159 / 2000) * 100, 100); // Ensure it doesn't exceed 100%
-  const savedPercentage = Math.min((deposit! / 2000) * 100, 100);
+  const percentage = Math.min((saved / target) * 100, 100);
+  const savedPercentage = Math.min((deposit! / target) * 100, 100);
+
+  const payload = potDeposit.bind(null, id);
+  const [state, formAction, isPending] = useActionState(payload, null);
 
   return (
     <Overlay>
@@ -20,7 +34,7 @@ export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
           {" "}
           <div className="flex justify-between mb-[20px]">
             <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
-              Add to ‘Savings’{" "}
+              Add to ‘{heading}’
             </h1>
             <Image
               src="/assets/images/icon-close-modal.svg"
@@ -42,7 +56,7 @@ export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
                 Total Saved{" "}
               </span>
               <span className="text-gray-900 font-bold text-[32px]">
-                $ {deposit ? deposit + 159 : 159}
+                $ {deposit ? deposit + saved : saved}
               </span>
             </div>
             <div className="w-full bg-[#F8F4F0] flex rounded-full h-2 relative">
@@ -58,17 +72,19 @@ export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
             <div className="flex justify-between mt-[13px]">
               <span className="font-bold text-[12px] text-[#277C78]">
                 {savedPercentage
-                  ? Number(percentage.toFixed(2)) +
-                    Number(savedPercentage.toFixed(2))
+                  ? (
+                      Number(percentage.toFixed(2)) +
+                      Number(savedPercentage.toFixed(2))
+                    ).toFixed(2)
                   : Number(percentage.toFixed(2))}
                 %
               </span>
               <span className="font-normal text-[12px] text-gray-500">
-                Target of $2000{" "}
+                Target of ${target}
               </span>
             </div>
           </div>
-          <form className="mt-[20px]">
+          <form action={formAction} className="mt-[20px]">
             <label
               htmlFor="pot-name"
               className="text-gray-500 font-bold text-[12px]"
@@ -76,10 +92,10 @@ export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
               Amount to Add
             </label>
             <input
-              value={deposit}
+              // value={deposit}
               name="amount"
               onChange={(e) => {
-                if (Number(e.target.value) > 2000) {
+                if (Number(e.target.value) > target) {
                   return;
                 }
                 const v = Number(e.target.value);
@@ -87,13 +103,26 @@ export default function Pot_Deposit({ setDisplayForm }: DisplayProps) {
               }}
               type="number"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
-              placeholder="e.g. Rainy Days"
+              placeholder="e.g. 2000"
             />
+
+            {state && (
+              <div
+                className={`flex mb-4 mt-[6px] items-center gap-2 text-[12px] ${
+                  state
+                    ? "text-red-500"
+                    : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                } `}
+              >
+                <p>{state.errors.amount}</p>
+              </div>
+            )}
+            <input type="hidden" name="pot_id" value={heading} />
             <button
               type="submit"
               className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
             >
-              Confirm Addition
+              {isPending ? "Adding..." : "Confirm Addition"}
             </button>
           </form>
         </article>

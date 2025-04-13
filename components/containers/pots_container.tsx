@@ -9,7 +9,13 @@ import Pot_Deposit from "../forms/pot_deposit_form";
 import Pot_Withdrawal from "../forms/pot_withdraw_form";
 import { PotProps } from "@/libs/definitions";
 
-export default function Pot_Container({ pots }: { pots: PotProps[] }) {
+export default function Pot_Container({
+  pots,
+  id,
+}: {
+  pots: PotProps[];
+  id: string;
+}) {
   const formatCurrency = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -26,6 +32,8 @@ export default function Pot_Container({ pots }: { pots: PotProps[] }) {
   const [displayForm, setDisplayForm] = useState(false);
   const [displayDeposit, setDisplayDeposit] = useState(false);
   const [displayWithdrawal, setDisplayWithdrawal] = useState(false);
+  const [target, setTarget] = useState(0);
+  const [saved, setSaved] = useState(0);
 
   function toggleDropdown(index: number) {
     setActiveDropdown(activeDropdown === index ? null : index);
@@ -73,7 +81,7 @@ export default function Pot_Container({ pots }: { pots: PotProps[] }) {
                 alt="ellipsis"
                 width={32}
                 height={32}
-                className=" w-auto h-auto cursor-pointer "
+                className=" w-auto hover:scale-125 h-auto cursor-pointer "
                 onClick={() => {
                   toggleDropdown(index);
                   setSelectedPot(pot.name);
@@ -133,13 +141,23 @@ export default function Pot_Container({ pots }: { pots: PotProps[] }) {
 
             <div className="mt-8 w-full cursor-pointer flex justify-between gap-4">
               <button
-                onClick={() => setDisplayDeposit(true)}
+                onClick={() => {
+                  setDisplayDeposit(true);
+                  setSelectedPot(pot.name);
+                  setTarget(pot.target);
+                  setSaved(pot.total);
+                }}
                 className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 w-full text-[14px] font-bold text-gray-900"
               >
                 + Add Money
               </button>
               <button
-                onClick={() => setDisplayWithdrawal(true)}
+                onClick={() => {
+                  setDisplayWithdrawal(true);
+                  setSelectedPot(pot.name);
+                  setTarget(pot.target);
+                  setSaved(pot.total);
+                }}
                 className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 text-[14px] w-full font-bold text-gray-900"
               >
                 Withdraw
@@ -155,10 +173,22 @@ export default function Pot_Container({ pots }: { pots: PotProps[] }) {
         <Pot_Edit_Form setDisplayForm={() => setDisplayForm(false)} />
       )}
       {displayDeposit && (
-        <Pot_Deposit setDisplayForm={() => setDisplayDeposit(false)} />
+        <Pot_Deposit
+          heading={selectedPot}
+          target={target}
+          saved={saved}
+          id={id}
+          setDisplayForm={() => setDisplayDeposit(false)}
+        />
       )}
       {displayWithdrawal && (
-        <Pot_Withdrawal setDisplayForm={() => setDisplayWithdrawal(false)} />
+        <Pot_Withdrawal
+          heading={selectedPot}
+          target={target}
+          saved={saved}
+          id={id}
+          setDisplayForm={() => setDisplayWithdrawal(false)}
+        />
       )}
     </section>
   );
