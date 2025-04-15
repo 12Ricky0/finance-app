@@ -7,6 +7,7 @@ import {
   BudgetProps,
   potDepositSchema,
   PotProps,
+  potSchema,
 } from "./definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -101,6 +102,41 @@ export async function deleteBudget(id: string, prev: any, formData: FormData) {
   }
   revalidatePath("/finance/budget");
   redirect("/finance/budget");
+}
+
+export async function createPot(id: string, prev: any, formData: FormData) {
+  const name = formData.get("pot-name");
+  const target = formData.get("target");
+  const theme = formData.get("theme");
+
+  const validatePotData = potSchema.safeParse({
+    name: name,
+    target: Number(target),
+    total: 0,
+    theme: theme,
+  });
+
+  if (!validatePotData.success) {
+    return {
+      errors: validatePotData.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    await dbConnect();
+    const doc = await Finance.findById(id);
+    const potHeading = doc.pots.map((pot: PotProps) => pot.name.toLowerCase());
+    const { name } = validatePotData.data;
+    if (potHeading.includes(name.toLowerCase())) {
+      return { message: "Pot name already in use" };
+    }
+    doc.pots.push(validatePotData.data);
+    await doc.save();
+  } catch (error) {
+    console.error(error);
+  }
+  revalidatePath("/finance/pots");
+  redirect("/finance/pots");
 }
 
 export async function potDeposit(id: string, prev: any, formData: FormData) {

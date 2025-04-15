@@ -92,7 +92,7 @@ export default function Pot_Deposit({
               Amount to Add
             </label>
             <input
-              // value={deposit}
+              value={deposit === 0 ? "" : deposit}
               name="amount"
               onChange={(e) => {
                 if (Number(e.target.value) > target) {

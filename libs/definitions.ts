@@ -85,6 +85,15 @@ export const budgetSchema = z.object({
   theme: z.string(),
 });
 
+export const potSchema = z.object({
+  name: z.string().min(1, { message: "Pot name is required" }),
+  target: z
+    .number({ required_error: "Amount is required" })
+    .positive({ message: "Amount spend must be greater than 0" }),
+  total: z.number(),
+  theme: z.string(),
+});
+
 export const potDepositSchema = z.object({
   amount: z
     .number({ required_error: "Amount is required" })

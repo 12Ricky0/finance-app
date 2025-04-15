@@ -117,7 +117,7 @@ export default function Pot_Container({
                   Total Saved{" "}
                 </span>
                 <span className="text-gray-900 font-bold text-[32px]">
-                  {formatCurrency.format(pot.total)}
+                  {formatCurrency.format(pot.total ? pot.total : 0)}
                 </span>
               </div>
               <div className="w-full bg-[#F8F4F0] rounded-full h-2 relative">
@@ -131,7 +131,10 @@ export default function Pot_Container({
               </div>
               <div className="flex justify-between mt-[13px]">
                 <span className="font-bold text-[12px] text-gray-500">
-                  {percentage(pot.total, pot.target).toFixed(2)}%{" "}
+                  {percentage(pot.total, pot.target)
+                    ? percentage(pot.total, pot.target).toFixed(2)
+                    : 0}
+                  %
                 </span>
                 <span className="font-normal text-[12px] text-gray-500">
                   Target of ${pot.target}
@@ -145,7 +148,7 @@ export default function Pot_Container({
                   setDisplayDeposit(true);
                   setSelectedPot(pot.name);
                   setTarget(pot.target);
-                  setSaved(pot.total);
+                  setSaved(pot.total ? pot.total : 0);
                 }}
                 className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 w-full text-[14px] font-bold text-gray-900"
               >
@@ -156,7 +159,7 @@ export default function Pot_Container({
                   setDisplayWithdrawal(true);
                   setSelectedPot(pot.name);
                   setTarget(pot.target);
-                  setSaved(pot.total);
+                  setSaved(pot.total ? pot.total : 0);
                 }}
                 className="bg-[#F8F4F0] cursor-pointer hover:bg-transparent hover:border rounded-lg py-4 text-[14px] w-full font-bold text-gray-900"
               >
