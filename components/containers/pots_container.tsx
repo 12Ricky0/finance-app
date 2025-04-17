@@ -32,12 +32,17 @@ export default function Pot_Container({
   const [displayForm, setDisplayForm] = useState(false);
   const [displayDeposit, setDisplayDeposit] = useState(false);
   const [displayWithdrawal, setDisplayWithdrawal] = useState(false);
+  const [defaultTheme, setDefaultTheme] = useState("");
   const [target, setTarget] = useState(0);
   const [saved, setSaved] = useState(0);
 
   function toggleDropdown(index: number) {
     setActiveDropdown(activeDropdown === index ? null : index);
   }
+
+  const themes = new Set<string>();
+  pots.forEach((pot: PotProps) => themes.add(pot.theme));
+  const themesArray = Array.from(themes);
 
   return (
     <section className="mb-[76px] md:mb-[106px] lg:mb-8">
@@ -93,6 +98,8 @@ export default function Pot_Container({
                     onClick={() => {
                       setDisplayForm(true);
                       setActiveDropdown(null);
+                      setTarget(pot.target);
+                      setDefaultTheme(pot.theme);
                     }}
                     className="border-b border-gray-100 text-gray-900 pb-3"
                   >
@@ -170,10 +177,22 @@ export default function Pot_Container({
         ))}
       </div>
       {deleteModal && (
-        <Delete setDeleteModal={setDeleteModal} header={selectedPot} />
+        <Delete
+          toDelete="Pot"
+          id={id}
+          setDeleteModal={setDeleteModal}
+          header={selectedPot}
+        />
       )}
       {displayForm && (
-        <Pot_Edit_Form setDisplayForm={() => setDisplayForm(false)} />
+        <Pot_Edit_Form
+          potTheme={themesArray}
+          heading={selectedPot}
+          target={target}
+          defaultTheme={defaultTheme}
+          id={id}
+          setDisplayForm={() => setDisplayForm(false)}
+        />
       )}
       {displayDeposit && (
         <Pot_Deposit

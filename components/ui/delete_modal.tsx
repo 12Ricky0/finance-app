@@ -4,7 +4,12 @@ import { deleteBudget } from "@/libs/actions";
 import { useActionState } from "react";
 import { DeleteProps } from "@/libs/definitions";
 
-export default function Delete({ setDeleteModal, header, id }: DeleteProps) {
+export default function Delete({
+  setDeleteModal,
+  header,
+  id,
+  toDelete,
+}: DeleteProps) {
   const payload = deleteBudget.bind(null, id);
   const [state, formAction, isPending] = useActionState(payload, null);
 
@@ -19,6 +24,7 @@ export default function Delete({ setDeleteModal, header, id }: DeleteProps) {
             Delete `{header}`?
           </h1>
           <input type="hidden" name="key" value={header} />
+          <input type="hidden" name="to_delete" value={toDelete} />
           <Image
             src="/assets/images/icon-close-modal.svg"
             alt="close"

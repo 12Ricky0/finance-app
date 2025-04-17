@@ -1,16 +1,27 @@
 "use client";
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useActionState } from "react";
+import { editPot } from "@/libs/actions";
+import { Pending } from "@mui/icons-material";
 
 interface DisplayProps {
   setDisplayForm: (value: boolean) => void;
+  potTheme: string[];
+  id: string;
+  heading: string;
+  target: number;
+  defaultTheme: string;
 }
 
-export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
-  const [displayTheme, setDisplayTheme] = useState(false);
-  const [theme, setTheme] = useState({ name: "Green", hex: "#277C78" });
-
+export default function Pot_Edit_Form({
+  setDisplayForm,
+  potTheme,
+  id,
+  heading,
+  target,
+  defaultTheme,
+}: DisplayProps) {
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
     { name: "Yellow", hex: "#F2CDAC" },
@@ -28,13 +39,22 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
     { name: "Gold", hex: "#CAB361" },
     { name: "Orange", hex: "#BE6C49" },
   ];
+
+  const [displayTheme, setDisplayTheme] = useState(false);
+  const [theme, setTheme] = useState(() =>
+    colorOptions.find((color) => color.hex == defaultTheme)
+  );
+  const [potName, setPotName] = useState(heading);
+  const payload = editPot.bind(null, id);
+  const [state, formAction, isPending] = useActionState(payload, null);
+
   return (
     <Overlay>
       <section className="bg-white rounded-xl md:p-8 p-5 w-full lg:w-[560px] md:mx-[100px] lg:mx-0 mx-4">
-        <form className="relative">
+        <form action={formAction} className="relative">
           <div className="flex justify-between mb-[20px]">
             <h1 className="text-gray-900 font-bold md:text-[32px] text-[20px]">
-              Add New Pot
+              Edit Pot
             </h1>
             <Image
               src="/assets/images/icon-close-modal.svg"
@@ -57,13 +77,51 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
               Pot Name
             </label>
             <input
+              defaultValue={potName}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value.length <= 30) {
+                  setPotName(value);
+                }
+              }}
+              name="pot-name"
               type="text"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
               placeholder="e.g. Rainy Days"
             />
-            <p className="text-gray-500 text-[12px] font-normal text-right">
-              30 characters left
-            </p>
+            <div
+              className={` ${
+                (state?.errors?.name && "flex") || (state?.message && "flex")
+              } justify-between`}
+            >
+              {state?.message && (
+                <div
+                  className={`flex mb-4 items-center gap-2 text-[12px] ${
+                    state
+                      ? "text-red-500"
+                      : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                  } `}
+                >
+                  <p>{state.message}</p>
+                </div>
+              )}
+
+              {state?.errors?.name && (
+                <div
+                  className={`flex mb-4  items-center gap-2 text-[12px] ${
+                    state
+                      ? "text-red-500"
+                      : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                  } `}
+                >
+                  <p>{state.errors.name}</p>
+                </div>
+              )}
+
+              <p className="text-gray-500 justify-end text-[12px] font-normal text-right">
+                {30 - potName.length} characters left
+              </p>
+            </div>
           </div>
 
           <div className="my-4">
@@ -74,6 +132,7 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
               Target
             </label>
             <input
+              defaultValue={target}
               type="number"
               name="target"
               placeholder="e.g. 2000"
@@ -90,11 +149,11 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
               <div className="flex items-center gap-3">
                 <div
                   className={`size-4 rounded-full`}
-                  style={{ backgroundColor: theme.hex }}
+                  style={{ backgroundColor: theme?.hex }}
                 />
 
                 <span className="font-normal text-gray-900 text-[14px]">
-                  {theme.name}
+                  {theme?.name}
                 </span>
               </div>
               <Image
@@ -105,6 +164,12 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
                 className=" w-auto h-auto cursor-pointer "
                 onClick={() => setDisplayTheme(!displayTheme)}
               />
+              <input type="hidden" name="theme" value={theme?.hex} />
+              <input
+                type="hidden"
+                name="default_theme"
+                value={heading.toLowerCase()}
+              />
             </div>
             {displayTheme && (
               <div className="bg-white mt-4 rounded-lg drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] absolute w-full">
@@ -112,25 +177,55 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
                   {colorOptions.map((option) => (
                     <div
                       key={option.name}
-                      className="flex justify-between mx-[20px] border-b last:border-0 border-gray-100"
+                      className="flex justify-between items-center mx-[20px] border-b last:border-0 border-gray-100"
                     >
                       <div className="flex  gap-3 items-center ">
                         <div
-                          className={`size-4 rounded-full`}
-                          style={{ backgroundColor: option.hex }}
+                          className={`size-4 ${potTheme
+                            .filter((pot) => pot != defaultTheme)
+                            ?.includes(
+                              option.hex ? "opacity-20" : "opacity-100"
+                            )} rounded-full `}
+                          style={{
+                            backgroundColor: option.hex,
+                            opacity: potTheme
+                              .filter((pot) => pot != defaultTheme)
+                              ?.includes(option.hex)
+                              ? 0.25
+                              : 1,
+                          }}
                         />
                         <li
                           onClick={() => {
-                            setDisplayTheme(false);
-                            setTheme({ name: option.name, hex: option.hex });
+                            if (
+                              potTheme
+                                .filter((pot) => pot != defaultTheme)
+                                ?.includes(option.hex)
+                            )
+                              return;
+                            else {
+                              setDisplayTheme(false);
+                              setTheme({ name: option.name, hex: option.hex });
+                            }
                           }}
-                          className={`text-gray-500 py-3  font-normal text-[14px] ${
-                            theme.name === option.name ? "text-gray-900" : ""
-                          } cursor-pointer hover:text-gray-900 transition duration-300 ease-in-out`}
+                          className={`py-3 font-normal text-[14px] ${
+                            potTheme
+                              .filter((pot) => pot != defaultTheme)
+                              ?.includes(option.hex)
+                              ? " text-gray-500"
+                              : "text-gray-900 hover:text-[#277C78]"
+                          } cursor-pointer transition duration-300 ease-in-out`}
                         >
                           {option.name}
                         </li>
                       </div>
+                      {potTheme
+                        .filter((pot) => pot != defaultTheme)
+                        ?.includes(option.hex) && (
+                        <li className="text-[12px] text-gray-500">
+                          Already used
+                        </li>
+                      )}
 
                       <Image
                         src="/assets/images/icon-selected.svg"
@@ -138,9 +233,8 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
                         width={32}
                         height={32}
                         className={` w-auto h-auto cursor-pointer ${
-                          theme.name === option.name ? "block" : "hidden"
+                          theme?.name === option.name ? "block" : "hidden"
                         }`}
-                        // onClick={() => setDisplayTheme(!displayTheme)}
                       />
                     </div>
                   ))}
@@ -148,13 +242,13 @@ export default function Pot_Edit_Form({ setDisplayForm }: DisplayProps) {
               </div>
             )}
           </div>
+          <button
+            type="submit"
+            className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
+          >
+            {isPending ? "Saving..." : "Save Changes"}
+          </button>
         </form>
-        <button
-          type="submit"
-          className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
-        >
-          Add Budget
-        </button>
       </section>
     </Overlay>
   );

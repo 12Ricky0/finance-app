@@ -84,8 +84,11 @@ export async function editBudget(id: string, prev: any, formData: FormData) {
 }
 
 export async function deleteBudget(id: string, prev: any, formData: FormData) {
+  const toDelete = formData.get("to_delete");
+
   try {
     const key = formData.get("key");
+    console.log(key);
 
     await dbConnect();
     const doc = await Finance.findById(id);
@@ -93,15 +96,24 @@ export async function deleteBudget(id: string, prev: any, formData: FormData) {
     if (!doc) {
       throw new Error("Note not found");
     }
-    doc.budgets = doc.budgets.filter(
-      (budget: BudgetProps) => budget.category !== key
-    );
+    if (toDelete === "Budget") {
+      doc.budgets = doc.budgets.filter(
+        (budget: BudgetProps) => budget.category !== key
+      );
+    } else {
+      doc.pots = doc.pots.filter((pot: PotProps) => pot.name !== key);
+    }
     await doc.save();
   } catch (error) {
     console.error(error);
   }
-  revalidatePath("/finance/budget");
-  redirect("/finance/budget");
+  if (toDelete === "Budget") {
+    revalidatePath("/finance/budget");
+    redirect("/finance/budget");
+  } else {
+    revalidatePath("/finance/pots");
+    redirect("/finance/pots");
+  }
 }
 
 export async function createPot(id: string, prev: any, formData: FormData) {
@@ -202,6 +214,54 @@ export async function potWithdrawal(id: string, prev: any, formData: FormData) {
     console.error(error);
   }
 
+  revalidatePath("/finance/pots");
+  redirect("/finance/pots");
+}
+
+export async function editPot(id: string, prev: any, formData: FormData) {
+  const name = formData.get("pot-name");
+  const target = formData.get("target");
+  const theme = formData.get("theme");
+  const defaultName = formData.get("default_theme");
+
+  const validatePotData = potSchema.safeParse({
+    name: name,
+    target: Number(target),
+    total: 0,
+    theme: theme,
+  });
+
+  console.log(name, target, theme, defaultName);
+
+  if (!validatePotData.success) {
+    return {
+      errors: validatePotData.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    await dbConnect();
+    const doc = await Finance.findById(id);
+    const { name, target, theme } = validatePotData.data;
+
+    const toEdit = doc.pots.find(
+      (pot: PotProps) => pot.name.toLowerCase() == defaultName
+    );
+    const potNames = doc.pots
+      .filter((pot: PotProps) => pot.name.toLowerCase() !== defaultName)
+      .map((pot: PotProps) => pot.name.toLowerCase());
+
+    if (potNames.includes(name.toLowerCase())) {
+      return { message: "Pot name already in use" };
+    }
+
+    toEdit.name = name;
+    toEdit.target = target;
+    toEdit.theme = theme;
+    await doc.save();
+  } catch (error) {
+    console.error(error);
+  }
   revalidatePath("/finance/pots");
   redirect("/finance/pots");
 }

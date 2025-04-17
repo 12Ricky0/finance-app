@@ -244,6 +244,7 @@ export default function Budget_Plan_Card({
       ))}
       {deleteModal && (
         <Delete
+          toDelete="Budget"
           setDeleteModal={setDeleteModal}
           header={selectedBudget}
           id={id}

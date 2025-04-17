@@ -47,6 +47,7 @@ export interface BudgetProps {
 export interface DeleteProps {
   header: string;
   id: string;
+  toDelete: string;
   setDeleteModal: (value: boolean) => void;
 }
 
