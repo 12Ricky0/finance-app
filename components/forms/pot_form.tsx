@@ -23,7 +23,7 @@ export default function Pot_Form({
     { name: "Brown", hex: "#93674F" },
     { name: "Magenta", hex: "#934F6F" },
     { name: "Blue", hex: "#3F82B2" },
-    { name: "Navy Grey", hex: "#97A0AC" }, // Approximate color
+    { name: "Navy Grey", hex: "#97A0AC" },
     { name: "Army Green", hex: "#7F9161" },
     { name: "Pink", hex: "#826CB0" },
     { name: "Gold", hex: "#CAB361" },
@@ -220,7 +220,6 @@ export default function Pot_Form({
                         className={` w-auto h-auto cursor-pointer ${
                           theme.name === option.name ? "block" : "hidden"
                         }`}
-                        // onClick={() => setDisplayTheme(!displayTheme)}
                       />
                     </div>
                   ))}
@@ -232,7 +231,7 @@ export default function Pot_Form({
             type="submit"
             className="w-full py-4 text-white bg-gray-900 mt-[20px] text-[14px] hover:bg-gray-600 cursor-pointer rounded-lg font-bold"
           >
-            Add Budget
+            {isPending ? "Adding..." : "Add Budget"}
           </button>
         </form>
       </section>

@@ -36,8 +36,7 @@ export default function Budget_Edit_Form({
     { name: "Brown", hex: "#93674F" },
     { name: "Magenta", hex: "#934F6F" },
     { name: "Blue", hex: "#3F82B2" },
-    { name: "Navy Grey", hex: "#97A0AC" }, // Approximate color
-    { name: "Army Green", hex: "#7F9161" },
+    { name: "Navy Grey", hex: "#97A0AC" },
     { name: "Pink", hex: "#826CB0" },
     { name: "Gold", hex: "#CAB361" },
     { name: "Orange", hex: "#BE6C49" },

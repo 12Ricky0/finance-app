@@ -1,5 +1,4 @@
 import Chart from "../containers/charts";
-// import data from "../../data.json";
 import { BudgetProps, TransactionProps } from "@/libs/definitions";
 
 export default function Budget_Summary_Card({
@@ -20,8 +19,8 @@ export default function Budget_Summary_Card({
 
   const totalSpent = transactions
     .filter((transaction) => budgetNames.includes(transaction.category))
-    .filter((cat) => new Date(cat.date).getMonth() > 6) // Check if category exists in budgetNames
-    .reduce((sum, transaction) => sum + transaction.amount, 0); // Sum up the amounts
+    .filter((cat) => new Date(cat.date).getMonth() > 6)
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
   const totalMaxAmount = budgetData.reduce(
     (superTotal, budget) => superTotal + budget.maximum,
     0
@@ -37,7 +36,6 @@ export default function Budget_Summary_Card({
     },
     {}
   );
-  console.log(amountSpent);
   return (
     <section className="flex flex-col pt-6 bg-white rounded-lg mx-4 md:mx-[40px] lg:mr-0 px-[20px]">
       <div className="flex justify-center ">

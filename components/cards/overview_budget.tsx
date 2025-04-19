@@ -16,8 +16,8 @@ export default function Budget_Card({
   const colors = budgetData.map((budget) => budget.theme);
   const totalSpent = transactions
     .filter((transaction) => budgetNames.includes(transaction.category))
-    .filter((cat) => new Date(cat.date).getMonth() > 6) // Check if category exists in budgetNames
-    .reduce((sum, transaction) => sum + transaction.amount, 0); // Sum up the amounts
+    .filter((cat) => new Date(cat.date).getMonth() > 6)
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
   const totalMaxAmount = budgetData.reduce(
     (superTotal, budget) => superTotal + budget.maximum,
     0

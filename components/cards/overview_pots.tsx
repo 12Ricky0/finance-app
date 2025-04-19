@@ -32,7 +32,6 @@ export default function Pots_Card({ potsData }: { potsData: PotProps[] }) {
             alt="right"
             width={32}
             height={32}
-            // className=" w-auto h-auto cursor-pointer "
           />
 
           <article className="flex flex-col gap-[11px]">

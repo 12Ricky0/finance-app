@@ -31,8 +31,6 @@ export default function Footer() {
             >
               Overview
             </span>
-
-            {/* <div className="h-1 bg-[#277C78] w-full" /> */}
           </Link>
         </div>
         <div
@@ -58,7 +56,6 @@ export default function Footer() {
             <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Transactions
             </span>
-            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
         <div
@@ -81,8 +78,6 @@ export default function Footer() {
             <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Budget
             </span>
-
-            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
         <div
@@ -105,8 +100,6 @@ export default function Footer() {
             <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Pots
             </span>
-
-            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
         <div
@@ -134,8 +127,6 @@ export default function Footer() {
             >
               Recurring bills
             </span>
-
-            {/* <div className={`h-1 bg-[#277C78] w-full hidden`} /> */}
           </Link>
         </div>
       </nav>

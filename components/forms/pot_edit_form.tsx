@@ -3,7 +3,6 @@ import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState, useActionState } from "react";
 import { editPot } from "@/libs/actions";
-import { Pending } from "@mui/icons-material";
 
 interface DisplayProps {
   setDisplayForm: (value: boolean) => void;

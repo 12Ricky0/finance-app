@@ -54,10 +54,6 @@ export default function Budget_Form({
   const payload = createBudget.bind(null, id);
   const [state, formAction, isPending] = useActionState(payload, null);
 
-  // useEffect(() => {
-  //   if (!state?.errors) router.back()
-  // });
-
   return (
     <Overlay>
       <form
