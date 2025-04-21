@@ -21,7 +21,7 @@ export default function Pot_Withdrawal({
 }: DisplayProps) {
   const [withdraw, setWithdraw] = useState<number>(0);
 
-  const percentage = Math.min((saved / target) * 100, 100); // Ensure it doesn't exceed 100%
+  const percentage = Math.min((saved / target) * 100, 100);
   const withdrawalPercentage = Math.min((withdraw! / target) * 100, 100);
 
   const payload = potWithdrawal.bind(null, id);
@@ -106,6 +106,17 @@ export default function Pot_Withdrawal({
               placeholder="e.g. Rainy Days"
             />
             <input type="hidden" name="pot_id" value={heading} />
+            {state?.errors.amount && (
+              <div
+                className={`flex mb-4 items-center gap-2 text-[12px] ${
+                  state
+                    ? "text-red-500"
+                    : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                } `}
+              >
+                <p>{state.errors.amount}</p>
+              </div>
+            )}
 
             <button
               type="submit"

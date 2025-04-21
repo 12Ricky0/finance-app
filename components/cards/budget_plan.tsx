@@ -170,9 +170,9 @@ export default function Budget_Plan_Card({
 
                 <span className="font-bold text-[14px] text-gray-900">
                   $
-                  {budget.maximum + amountSpent[budget.category] < 0
+                  {budget.maximum - Math.abs(amountSpent[budget.category]) < 0
                     ? 0
-                    : budget.maximum + amountSpent[budget.category]}
+                    : budget.maximum - Math.abs(amountSpent[budget.category])}
                 </span>
               </div>
             </div>
