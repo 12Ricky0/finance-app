@@ -50,7 +50,7 @@ export default function Budget_Plan_Card({
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<string>("");
-  const [displayForm, setDisplayForm] = useState(false);
+  const [displayEditForm, setDisplayEditForm] = useState(false);
   const [defaultCategory, setDefaultCategory] = useState<string>("");
   const [defaultTheme, setDefaultTheme] = useState<string>("");
   const [maxAmount, setMaxAmount] = useState<number>(0);
@@ -107,7 +107,7 @@ export default function Budget_Plan_Card({
               <div className=" cursor-pointer absolute top-6 right-0 z-50 flex flex-col py-3 px-[20px] rounded-lg text-[14px] bg-white drop-shadow-2xl">
                 <span
                   onClick={() => {
-                    setDisplayForm(!displayForm);
+                    setDisplayEditForm(!displayEditForm);
                     setActiveDropdown(null);
                     setDefaultCategory(budget.category);
                     setDefaultTheme(budget.theme);
@@ -250,7 +250,7 @@ export default function Budget_Plan_Card({
           id={id}
         />
       )}
-      {displayForm && (
+      {displayEditForm && (
         <Budget_Edit_Form
           id={id}
           budgetTheme={themesArray}
@@ -259,7 +259,7 @@ export default function Budget_Plan_Card({
           budgetCategories={budgetCategoriesArray}
           allCategories={categoriesArray}
           maxAmount={maxAmount}
-          setDisplayForm={() => setDisplayForm(false)}
+          setDisplayEditForm={() => setDisplayEditForm(false)}
         />
       )}
     </div>

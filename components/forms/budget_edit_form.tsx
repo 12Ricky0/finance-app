@@ -3,20 +3,10 @@ import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState, useActionState } from "react";
 import { editBudget } from "@/libs/actions";
-
-interface budgetEditProps {
-  setDisplayForm: (value: boolean) => void;
-  allCategories: string[];
-  budgetCategories: string[];
-  defaultCategory: string;
-  defaultTheme: string;
-  maxAmount: number;
-  budgetTheme: string[];
-  id: string;
-}
+import { budgetEditProps } from "@/libs/definitions";
 
 export default function Budget_Edit_Form({
-  setDisplayForm,
+  setDisplayEditForm,
   allCategories,
   budgetCategories,
   defaultCategory,
@@ -69,7 +59,7 @@ export default function Budget_Edit_Form({
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
-              onClick={() => setDisplayForm(false)}
+              onClick={() => setDisplayEditForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">

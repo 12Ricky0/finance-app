@@ -2,20 +2,16 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState, useActionState } from "react";
-import { useRouter } from "next/navigation";
 import { createBudget } from "@/libs/actions";
+import { BudgetFormProps } from "@/libs/definitions";
 
 export default function Budget_Form({
+  setDisplayForm,
   allCategories,
   budgetCategories,
   budgetTheme,
   id,
-}: {
-  allCategories: string[];
-  budgetCategories: string[];
-  budgetTheme: string[];
-  id: string;
-}) {
+}: BudgetFormProps) {
   const colorOptions = [
     { name: "Green", hex: "#277C78" },
     { name: "Yellow", hex: "#F2CDAC" },
@@ -49,7 +45,6 @@ export default function Budget_Form({
   const [theme, setTheme] = useState(() =>
     randomTheme.length > 0 ? randomTheme[0] : { name: "", hex: "" }
   );
-  const router = useRouter();
 
   const payload = createBudget.bind(null, id);
   const [state, formAction, isPending] = useActionState(payload, null);
@@ -71,7 +66,7 @@ export default function Budget_Form({
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
-              onClick={() => router.back()}
+              onClick={() => setDisplayForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">

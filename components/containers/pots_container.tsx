@@ -2,12 +2,12 @@
 import Image from "next/image";
 import { FinanceContext } from "@/context";
 import { use, useState } from "react";
-import Link from "next/link";
 import Delete from "../ui/delete_modal";
 import Pot_Edit_Form from "../forms/pot_edit_form";
 import Pot_Deposit from "../forms/pot_deposit_form";
 import Pot_Withdrawal from "../forms/pot_withdraw_form";
 import { PotProps } from "@/libs/definitions";
+import Pot_Form from "../forms/pot_form";
 
 export default function Pot_Container({
   pots,
@@ -32,6 +32,7 @@ export default function Pot_Container({
   const [displayForm, setDisplayForm] = useState(false);
   const [displayDeposit, setDisplayDeposit] = useState(false);
   const [displayWithdrawal, setDisplayWithdrawal] = useState(false);
+  const [displayPotDeposit, setDisplayPotDeposit] = useState(false);
   const [defaultTheme, setDefaultTheme] = useState("");
   const [target, setTarget] = useState(0);
   const [saved, setSaved] = useState(0);
@@ -54,12 +55,12 @@ export default function Pot_Container({
         <h1 className={`font-bold text-[32px] text-gray-900  mt-6 pb-8`}>
           Pots
         </h1>
-        <Link
-          href="/finance/pots/create"
-          className="p-4 rounded-lg hover:bg-gray-500 bg-gray-900 text-white font-bold text-[14px]"
+        <button
+          onClick={() => setDisplayPotDeposit(!displayPotDeposit)}
+          className="p-4 rounded-lg cursor-pointer hover:bg-gray-500 bg-gray-900 text-white font-bold text-[14px]"
         >
           + Add New Pot
-        </Link>
+        </button>
       </div>
       <div
         className={`grid ${
@@ -210,6 +211,13 @@ export default function Pot_Container({
           saved={saved}
           id={id}
           setDisplayForm={() => setDisplayWithdrawal(false)}
+        />
+      )}
+      {displayPotDeposit && (
+        <Pot_Form
+          setDisplayForm={() => setDisplayPotDeposit(false)}
+          id={id}
+          potTheme={themesArray}
         />
       )}
     </section>

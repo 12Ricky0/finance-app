@@ -44,6 +44,25 @@ export interface BudgetProps {
   theme: string;
 }
 
+export interface BudgetFormProps {
+  setDisplayForm: (value: boolean) => void;
+  allCategories: string[];
+  budgetCategories: string[];
+  budgetTheme: string[];
+  id: string;
+}
+
+export interface budgetEditProps {
+  setDisplayEditForm: (value: boolean) => void;
+  allCategories: string[];
+  budgetCategories: string[];
+  defaultCategory: string;
+  defaultTheme: string;
+  maxAmount: number;
+  budgetTheme: string[];
+  id: string;
+}
+
 export interface DeleteProps {
   header: string;
   id: string;

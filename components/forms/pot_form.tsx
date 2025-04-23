@@ -2,13 +2,14 @@
 import { Overlay } from "../skeletons/overlay";
 import Image from "next/image";
 import { useState, useActionState } from "react";
-import { useRouter } from "next/navigation";
 import { createPot } from "@/libs/actions";
 
 export default function Pot_Form({
+  setDisplayForm,
   potTheme,
   id,
 }: {
+  setDisplayForm: (value: boolean) => void;
   potTheme: string[];
   id: string;
 }) {
@@ -38,7 +39,6 @@ export default function Pot_Form({
     randomTheme.length > 0 ? randomTheme[0] : { name: "", hex: "" }
   );
   const [potName, setPotName] = useState("");
-  const router = useRouter();
 
   const payload = createPot.bind(null, id);
   const [state, formAction, isPending] = useActionState(payload, null);
@@ -57,7 +57,7 @@ export default function Pot_Form({
               width={32}
               height={32}
               className=" w-auto h-auto cursor-pointer "
-              onClick={() => router.back()}
+              onClick={() => setDisplayForm(false)}
             />
           </div>
           <p className="text-[14px] font-normal my-[20px] text-gray-500">
