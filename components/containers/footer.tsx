@@ -122,9 +122,7 @@ export default function Footer() {
               height={32}
               className="h-auto w-auto pb-2 "
             />
-            <span
-              className={`text-gray-300 hidden md:block pb-3  font-bold text-[12px]`}
-            >
+            <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
               Recurring bills
             </span>
           </Link>

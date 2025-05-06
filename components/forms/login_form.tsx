@@ -83,7 +83,7 @@ export default function Login_form() {
               Need to create an account?
             </span>
             <Link
-              href=""
+              href="/signup"
               className="cursor-pointer ml-2 text-gray-900 underline font-bold text-[14px] hover:text-blue-600"
             >
               Sign Up
