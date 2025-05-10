@@ -119,3 +119,11 @@ export const potDepositSchema = z.object({
     .number({ required_error: "Amount is required" })
     .positive({ message: "Amount spend must be greater than 0" }),
 });
+
+export const credentialsSchema = z.object({
+  name: z.string().min(1, { message: "Enter a Name" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must contain at least 8 character(s)" }),
+});
