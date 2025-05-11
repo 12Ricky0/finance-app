@@ -4,7 +4,7 @@ import Image from "next/image";
 import { use } from "react";
 import { FinanceContext } from "@/context";
 import { usePathname } from "next/navigation";
-
+import { signOut } from "next-auth/react";
 export default function Header() {
   const { setIsMinimized, isMinimized, setCategory } = use(FinanceContext);
   const pathname = usePathname();
@@ -173,6 +173,38 @@ export default function Header() {
             <div className={`h-1 bg-[#277C78] w-full hidden`} />
           </Link>
         </div>
+        <div
+          onClick={() => signOut({ redirectTo: "/" })}
+          className={` transition-colors delay-150 duration-300 gap-4 
+              text-gray-300
+           py-4 mr-6 cursor-pointer flex items-center rounded-r-lg hover:bg-beige-100 hover:ml-1 hover:shadow-[-4px_0_0_0_rgb(39,124,120,1)] hover:text-gray-900`}
+        >
+          <svg
+            className="ml-8"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="#b3b3b3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.8"
+              d="M21 11.998H8.945m12.055 0-2.932-2.934M21 11.998l-2.932 2.936M14.556 8.266V7.251c0-1.56-1.121-2.891-2.651-3.15L6.702 3.046C4.765 2.718 3 4.219 3 6.195v11.61c0 1.976 1.765 3.477 3.702 3.15l5.203-1.057a3.188 3.188 0 0 0 2.65-3.149v-1.014"
+            />
+          </svg>
+          <span
+            className={` transition-all duration-500 font-bold text-[16px] ${
+              isMinimized
+                ? "opacity-0 scale-0 w-0"
+                : "opacity-100 scale-100 w-auto"
+            } `}
+          >
+            Logout
+          </span>
+        </div>{" "}
       </nav>
       <div
         onClick={() => setIsMinimized(!isMinimized)}

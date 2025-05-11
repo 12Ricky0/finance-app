@@ -1,7 +1,28 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { authenticate } from "@/libs/actions";
+import { useState, ChangeEvent, useActionState } from "react";
 
 export default function Login_form() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const [state, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="lg:flex items-center w-full md:mx-[100px] lg:mx-0 mx-4">
       <div className="relative">
@@ -31,7 +52,7 @@ export default function Login_form() {
       </div>
       <div className="lg:flex justify-center flex-1 ">
         <section className="bg-white px-5 md:p-8 lg:mr-[20px] lg:w-[560px] py-6 rounded-[16px]">
-          <form action="">
+          <form action={formAction}>
             <fieldset>
               <legend className="text-[#201F24] font-bold text-[32px] mb-8">
                 Login
@@ -47,8 +68,20 @@ export default function Login_form() {
                 id="email"
                 className="border-[#98908B] mt-1 cursor-pointer border rounded-lg w-full py-3 px-5 outline-neutral-300 focus:outline-neutral-500 focus:outline-2 focus:border-primary-dark"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
               />
-
+              {state && (
+                <div
+                  className={`flex mb-4 mt-[6px] items-center gap-2 text-[12px] ${
+                    state
+                      ? "text-red-500"
+                      : "text-tetiary-semi-dark dark:text-secondary-light-gray"
+                  } `}
+                >
+                  <p>{state}</p>
+                </div>
+              )}
               <label
                 className="block mt-4 text-[#696868] font-bold text-[12px]"
                 htmlFor="password"
@@ -61,8 +94,11 @@ export default function Login_form() {
                   id="password"
                   className="border-[#98908B] mt-1 cursor-pointer border rounded-lg w-full py-3 px-5 outline-neutral-300 focus:outline-neutral-500 focus:outline-2 focus:border-primary-dark"
                   name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                 />
                 <Image
+                  onClick={() => setShowPassword(!showPassword)}
                   src="/assets/images/icon-show-password.svg"
                   alt="Eye Icon"
                   width={16}
@@ -75,7 +111,7 @@ export default function Login_form() {
               type="submit"
               className="w-full mt-4 text-white bg-gray-900 bg-primary-dark hover:bg-gray-600 cursor-pointer my-8 rounded-lg py-4 font-bold"
             >
-              Login
+              {isPending ? "Loading..." : "Login"}
             </button>
           </form>
           <div className=" text-center">

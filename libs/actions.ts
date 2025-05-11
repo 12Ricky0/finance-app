@@ -2,15 +2,22 @@
 "use server";
 import { dbConnect } from "./dbConnect";
 import Finance from "@/models/financeModel";
+import User from "@/models/userModel";
 import {
   budgetSchema,
   BudgetProps,
   potDepositSchema,
   PotProps,
   potSchema,
+  credentialsSchema,
 } from "./definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import bcryptjs from "bcryptjs";
+import { notFound } from "next/navigation";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+import { auth } from "@/auth";
 
 export async function createBudget(id: string, prev: any, formData: FormData) {
   const category = formData.get("budgetCategory");
@@ -231,8 +238,6 @@ export async function editPot(id: string, prev: any, formData: FormData) {
     theme: theme,
   });
 
-  console.log(name, target, theme, defaultName);
-
   if (!validatePotData.success) {
     return {
       errors: validatePotData.error.flatten().fieldErrors,
@@ -264,4 +269,69 @@ export async function editPot(id: string, prev: any, formData: FormData) {
   }
   revalidatePath("/finance/pots");
   redirect("/finance/pots");
+}
+
+export async function getUser(email: string) {
+  await dbConnect();
+
+  return await User.findOne({ email: email });
+}
+
+export async function registerUser(prevState: any, formData: FormData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const name = formData.get("name");
+
+  const validateCredentials = credentialsSchema.safeParse({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  const user = await getUser(email!.toString());
+  if (user) {
+    return { message: "Email already in use" };
+  }
+
+  if (!validateCredentials.success) {
+    return {
+      errors: validateCredentials.error.flatten().fieldErrors,
+    };
+  }
+  try {
+    await dbConnect();
+    const salt = bcryptjs.genSaltSync(10);
+
+    const { email, password, name } = validateCredentials.data;
+    const hashedPassword = await bcryptjs.hash(password, salt);
+    const data = { name: name, email: email, password: hashedPassword };
+    await dbConnect();
+
+    await User.create(data);
+  } catch (error) {
+    console.error(error);
+    throw new Error(notFound());
+  }
+
+  redirect("/");
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+  redirect("/");
 }

@@ -94,6 +94,13 @@ export interface FinanceProps {
   pots: PotProps[];
 }
 
+export type UserProps = {
+  _id?: string;
+  name: string;
+  email: string;
+  password: string;
+};
+
 // SCHEMEA
 import { z } from "zod";
 

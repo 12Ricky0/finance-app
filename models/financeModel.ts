@@ -29,6 +29,7 @@ const PotSchema = new mongoose.Schema({
 });
 
 const FinanceSchema = new mongoose.Schema({
+  user: String,
   balance: BalanceSchema,
   transactions: [TransactionSchema],
   budgets: [BudgetSchema],
