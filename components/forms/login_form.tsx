@@ -90,7 +90,7 @@ export default function Login_form() {
               </label>
               <div className="relative ">
                 <input
-                  type="text"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   className="border-[#98908B] mt-1 cursor-pointer border rounded-lg w-full py-3 px-5 outline-neutral-300 focus:outline-neutral-500 focus:outline-2 focus:border-primary-dark"
                   name="password"

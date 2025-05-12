@@ -17,7 +17,7 @@ import bcryptjs from "bcryptjs";
 import { notFound } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { auth } from "@/auth";
+import data from "../data.json";
 
 export async function createBudget(id: string, prev: any, formData: FormData) {
   const category = formData.get("budgetCategory");
@@ -304,10 +304,17 @@ export async function registerUser(prevState: any, formData: FormData) {
 
     const { email, password, name } = validateCredentials.data;
     const hashedPassword = await bcryptjs.hash(password, salt);
-    const data = { name: name, email: email, password: hashedPassword };
-    await dbConnect();
+    const user = { name: name, email: email, password: hashedPassword };
+    await User.create(user);
 
-    await User.create(data);
+    const userData = {
+      user: email,
+      balance: data?.balance,
+      transactions: data.transactions,
+      budgets: data.budgets,
+      pots: data.pots,
+    };
+    await Finance.create(userData);
   } catch (error) {
     console.error(error);
     throw new Error(notFound());
