@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -127,6 +128,31 @@ export default function Footer() {
             </span>
           </Link>
         </div>
+        <div
+          onClick={() => signOut({ redirectTo: "/" })}
+          className={` transition-colors delay-150 duration-300 
+                      text-gray-300 gap-1
+                    px-[22px] md:px-0 cursor-pointer w-[104px] flex flex-col items-center rounded-r-lg hover:bg-beige-100  hover:text-gray-900`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="#b3b3b3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.8"
+              d="M21 11.998H8.945m12.055 0-2.932-2.934M21 11.998l-2.932 2.936M14.556 8.266V7.251c0-1.56-1.121-2.891-2.651-3.15L6.702 3.046C4.765 2.718 3 4.219 3 6.195v11.61c0 1.976 1.765 3.477 3.702 3.15l5.203-1.057a3.188 3.188 0 0 0 2.65-3.149v-1.014"
+            />
+          </svg>
+          <span className={` hidden md:block pb-3  font-bold text-[12px]`}>
+            Logout
+          </span>
+        </div>{" "}
       </nav>
     </footer>
   );

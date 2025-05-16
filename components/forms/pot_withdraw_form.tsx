@@ -89,10 +89,10 @@ export default function Pot_Withdrawal({
               htmlFor="pot-name"
               className="text-gray-500 font-bold text-[12px]"
             >
-              Amount to Add
+              Amount to Withdraw
             </label>
             <input
-              value={withdraw}
+              value={withdraw == 0 ? "" : withdraw}
               name="amount"
               onChange={(e) => {
                 if (Number(e.target.value) > saved) {
@@ -103,7 +103,6 @@ export default function Pot_Withdrawal({
               }}
               type="number"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
-              placeholder="e.g. Rainy Days"
             />
             <input type="hidden" name="pot_id" value={heading} />
             {state?.errors.amount && (

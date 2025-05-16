@@ -14,6 +14,17 @@ export default function Transaction_Card({
     style: "currency",
     currency: "USD",
   });
+
+  function setDate(d: string) {
+    const date = new Date(d);
+    const formattedDate = date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    return formattedDate;
+  }
+
   return (
     <section className="bg-white pt-6 px-[20px] rounded-lg md:gap-6 mx-4 lg:mr-0 md:mx-[40px] md:px-[32px] md:pt-[22px]">
       <div className="flex justify-between mb-[12px]">
@@ -64,7 +75,7 @@ export default function Transaction_Card({
               {formatCurrency.format(transaction.amount)}
             </h2>
             <span className="font-normal text-[12px] text-gray-500">
-              16 Aug 2024
+              {setDate(transaction.date)}
             </span>
           </div>
         </div>

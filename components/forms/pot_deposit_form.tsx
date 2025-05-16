@@ -19,7 +19,7 @@ export default function Pot_Deposit({
   saved,
   setDisplayForm,
 }: DisplayProps) {
-  const [deposit, setDeposit] = useState<number>();
+  const [deposit, setDeposit] = useState<number>(0);
 
   const percentage = Math.min((saved / target) * 100, 100);
   const savedPercentage = Math.min((deposit! / target) * 100, 100);
@@ -103,7 +103,6 @@ export default function Pot_Deposit({
               }}
               type="number"
               className="border w-full cursor-pointer hover:border-gray-900 border-[#98908B] px-[20px] mt-1 rounded-lg h-[45px] text-[14px] focus:outline-none"
-              placeholder="e.g. 2000"
             />
 
             {state && (

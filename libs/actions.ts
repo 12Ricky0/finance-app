@@ -95,7 +95,6 @@ export async function deleteBudget(id: string, prev: any, formData: FormData) {
 
   try {
     const key = formData.get("key");
-    console.log(key);
 
     await dbConnect();
     const doc = await Finance.findById(id);

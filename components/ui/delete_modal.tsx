@@ -11,7 +11,7 @@ export default function Delete({
   toDelete,
 }: DeleteProps) {
   const payload = deleteBudget.bind(null, id);
-  const [state, formAction, isPending] = useActionState(payload, null);
+  const [, formAction, isPending] = useActionState(payload, null);
 
   return (
     <Overlay>
@@ -35,7 +35,7 @@ export default function Delete({
           />
         </div>
         <p className="text-[14px] font-normal my-[20px] text-gray-500">
-          Are you sure you want to delete this budget? This action cannot be
+          Are you sure you want to delete this {toDelete}? This action cannot be
           reversed, and all the data inside it will be removed forever.
         </p>
         <button
