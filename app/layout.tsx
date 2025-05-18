@@ -13,17 +13,15 @@ export const metadata: Metadata = {
   description: "Manage your finances",
 };
 
-export default function RootLayout(props: {
+export default function RootLayout({
+  children,
+}: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
       <body className={`${publicSans.className} bg-beige-100 antialiased`}>
-        <FinanceProvider>
-          {props.children}
-          {props.modal}
-        </FinanceProvider>
+        <FinanceProvider>{children}</FinanceProvider>
       </body>
     </html>
   );
