@@ -280,6 +280,7 @@ export async function registerUser(prevState: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
   const name = formData.get("name");
+  await dbConnect();
 
   const validateCredentials = credentialsSchema.safeParse({
     name: name,
@@ -298,7 +299,6 @@ export async function registerUser(prevState: any, formData: FormData) {
     };
   }
   try {
-    await dbConnect();
     const salt = bcryptjs.genSaltSync(10);
 
     const { email, password, name } = validateCredentials.data;
