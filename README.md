@@ -51,7 +51,6 @@ Users are be able to:
 - MongoDB
 - Zod
 - Auth js
-- CSS Grid
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
 - [Next.js](https://nextjs.org/) - React framework
