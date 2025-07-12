@@ -4,7 +4,7 @@ import "./globals.css";
 import FinanceProvider from "@/context";
 
 const publicSans = Public_Sans({
-  variable: "--font-geist-mono",
+  variable: "--font-public-sans",
   subsets: ["latin"],
 });
 
